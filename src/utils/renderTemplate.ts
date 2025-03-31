@@ -46,7 +46,6 @@ export function renderTemplate(src: string, dest: string, callbacks: Callback[])
     (filename === 'extensions.json' || filename === 'settings.json' || filename === 'tsconfig.json') &&
     fs.existsSync(dest)
   ) {
-    console.log('tsconfig.json', dest, src);
     // merge instead of overwriting
     const existing = JSON.parse(fs.readFileSync(dest, 'utf8'));
     const newExtensions = JSON.parse(fs.readFileSync(src, 'utf8'));
@@ -75,7 +74,6 @@ export function renderTemplate(src: string, dest: string, callbacks: Callback[])
     // Add a callback to the array for late usage when template files are being processed
     callbacks.push(async (dataStore: Record<string, any>) => {
       const getData = (await import(pathToFileURL(src).toString())).default;
-      // console.log('getData oldData', src,dest, dataStore[dest] || [])
       // Though current `getData` are all sync, we still retain the possibility of async
       dataStore[dest] = await getData({
         oldData: dataStore[dest] || [],

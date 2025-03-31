@@ -1,17 +1,17 @@
 {
   "name": "xiaoiron-uni-ci",
   "type": "module",
-  "version": "1.0.0",
+  "version": "0.0.2-beta.1",
   "packageManager": "pnpm@9.9.0",
   "description": "轻松创建你的 uni-app 项目",
   "author": "1254326645@qq.com",
   "license": "MIT",
-  "homepage": "https://github.com/uni-helper/xiaoiron-uni-ci#readme",
+  "homepage": "https://github.com/karoboflower/xiaoiron-uni-ci#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/uni-helper/xiaoiron-uni-ci.git"
+    "url": "git+https://github.com/karoboflower/xiaoiron-uni-ci.git"
   },
-  "bugs": "https://github.com/uni-helper/xiaoiron-uni-ci/issues",
+  "bugs": "https://github.com/karoboflower/xiaoiron-uni-ci/issues",
   "keywords": [
     "uni",
     "uni-app",
@@ -36,7 +36,7 @@
     "lint": "eslint --ext .js,.ts,.vue .",
     "prettier": "prettier --write .",
     "beautify": "pnpm run prettier && \\ pnpm run lint:fix",
-    "prepublishOnly": "nr build",
+    "prepublishOnly": "pnpm run build",
     "release": "bumpp",
     "typecheck": "tsc --noEmit"
   },

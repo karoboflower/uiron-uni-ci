@@ -1,13 +1,16 @@
-<h1 align="center">✨💚create uni💚✨</h1>
+<h1 align="center">✨xiaoiron-uni-ci✨</h1>
 
 <p align="center">
-    <a href="https://github.com/uni-helper/create-uni/stargazers"><img src="https://img.shields.io/github/stars/uni-helper/create-uni?colorA=363a4f&colorB=b7bdf8&style=for-the-badge"></a>
-    <a href="https://www.npmjs.com/package/create-uni"><img src="https://img.shields.io/npm/dm/create-uni?colorA=363a4f&colorB=f5a97f&style=for-the-badge"></a>
-    <a href="https://www.npmjs.com/package/create-uni"><img src="https://img.shields.io/npm/v/create-uni?colorA=363a4f&colorB=a6da95&style=for-the-badge"></a>
+    <a href="https://www.npmjs.com/package/xiaoiron-uni-ci">
+        <img src="https://img.shields.io/npm/v/xiaoiron-uni-ci?style=for-the-badge&colorA=363a4f&colorB=a6da95" alt="NPM version">
+    </a>
+    <a href="https://github.com/karoboflower/xiaoiron-uni-ci/blob/main/LICENSE">
+        <img src="https://img.shields.io/github/license/karoboflower/xiaoiron-uni-ci?style=for-the-badge&colorA=363a4f&colorB=a6da95" alt="License">
+    </a>
 </p>
 
 <h2 align="center">
-<sub> >_ Easy to use create uni-app-vue3-vite-template▌ </sub>
+<sub> >_ Easy to use create uni-app-vue3-vite-template</sub>
 </h2>
 
 # 📦 使用
@@ -27,14 +30,7 @@
 
 `xiaoiron-uni-ci` 是一个用于快速创建 uni-app 项目的轻量脚手架工具，它可以帮助你快速创建一个基于`vite`和`vue3`的`uni-app`项目，同时提供了一些模板供你选择。
 
-<p align="center"><img  src=".github/image/demo.png"></p>
-
-## 🚤 快速使用
-
-```shell
-npx create-uni@latest --info
-# --info  获取当前项目环境信息
-```
+<p align="left"><img  src=".github/image/demo.png"></p>
 
 ### 参数说明
 
@@ -48,13 +44,9 @@ npx create-uni@latest --info
 
 | 插件名 | 描述 | 参数名 |
 | :---: | :---: | :---: |
-| [vite-plugin-uni-components](https://github.com/uni-helper/vite-plugin-uni-components) | 按需自动引入组件 | import |
-| [vite-plugin-uni-pages](https://github.com/uni-helper/vite-plugin-uni-pages) | 提供基于文件系统的路由 | pages |
-| [vite-plugin-uni-layouts](https://github.com/uni-helper/vite-plugin-uni-layouts) | 提供类 nuxt 的 layouts 系统 | layouts |
-| [vite-plugin-uni-manifest](https://github.com/uni-helper/vite-plugin-uni-manifest) | 自动生成 manifest.json 文件 | manifest |
-| [vite-plugin-uni-platform](https://github.com/uni-helper/vite-plugin-uni-platform) | 基于文件名 (*.<h5\|mp-weixin\|app>.*) 的按平台编译插件 | filePlatform |
-| [vite-plugin-uni-platform-modifier](https://github.com/uni-helper/vite-plugin-uni-platform-modifier) | 为属性、指令提供平台修饰符并按需编译 | platformModifier |
-| [vite-plugin-uni-middleware](https://github.com/uni-helper/vite-plugin-uni-middleware) | 使用路由中间件 | middleware |
+| [auto-import-types](https://github.com/Allen-1998/auto-import-types.git) | 自动引入types | autoTypes |
+| [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) | 自动引入组件 | autoComponents |
+| [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import) | 自动引入库 | autoImport |
 
 #### 📦组件列表
 
@@ -71,8 +63,7 @@ Vite 需要 Node.js 版本 18+ 或 20+
 ## 🤝 参与贡献
 
 - 提交新功能
-- 解决[`issues`](https://github.com/uni-helper/create-uni/issues)
-- 提交新[`模板`](./src/question/template/)/[`Plugin`](./src/question/plugin/choices.ts)/[`module`](./src/question/module/choices.ts)/[`UI`](./src/question/UI/)
+- 解决[`issues`](https://github.com/karoboflower/xiaoiron-uni-ci/issues)
 
 ## 🌸 感谢
 
@@ -82,10 +73,8 @@ Vite 需要 Node.js 版本 18+ 或 20+
 
 [MIT LICENSE](./LICENSE)
 
-## 🙇🏻‍♂️[赞助](https://afdian.com/a/flippedround)
+## 🙇🏻‍♂️赞助
 
-<p align="center">
-  <a href="https://afdian.com/a/flippedround">
-    <img alt="sponsors" src="https://cdn.jsdelivr.net/gh/FliPPeDround/sponsors/sponsorkit/sponsors.svg"/>
-  </a>
+<p align="left">
+  <img src=".github/image/pay.jpg" alt="赞助二维码" style="width: 300px;">
 </p>

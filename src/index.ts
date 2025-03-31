@@ -160,6 +160,6 @@ async function init() {
 init().catch((error) => {
   console.log(cancelMesssage);
   console.log(error.message.includes('操作已取消') ? '' : error);
-  console.log(`🚀 遇到问题? 快速反馈：${green('https://github.com/uni-helper/create-uni/issues/new/choose')}`);
+  console.log(`🚀 遇到问题? 快速反馈：${green('https://github.com/karoboflower/xiaoiron-uni-ci/issues/new')}`);
   process.exit(0);
 });

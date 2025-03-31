@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "autoprefixer": "10.4.14",
+    "css-byebye": "^4.0.1",
+    "postcss-class-rename": "^1.0.1",
+    "postcss-import": "^16.1.0",
+    "tailwindcss": "^3.4.3"
+  }
+}

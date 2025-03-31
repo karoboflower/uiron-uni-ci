@@ -1,7 +1,7 @@
 export default function getData({ oldData }) {
   const autoImportPlugin = {
     id: 'autoComponents',
-    ScriptImport: `import { NutResolver } from 'nutui-uniapp'`,
+    ScriptImport: `import { NutResolver } from 'nutui-uniapp';`,
     extraResolvers: 'NutResolver',
   };
   const configIndex = oldData.findIndex((item) => item.id === 'autoComponents');
