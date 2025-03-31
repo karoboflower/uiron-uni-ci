@@ -1,0 +1,72 @@
+{
+  "name": "xiaoiron-uni-ci",
+  "type": "module",
+  "version": "1.0.0",
+  "packageManager": "pnpm@9.9.0",
+  "description": "轻松创建你的 uni-app 项目",
+  "author": "1254326645@qq.com",
+  "license": "MIT",
+  "homepage": "https://github.com/uni-helper/xiaoiron-uni-ci#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uni-helper/xiaoiron-uni-ci.git"
+  },
+  "bugs": "https://github.com/uni-helper/xiaoiron-uni-ci/issues",
+  "keywords": [
+    "uni",
+    "uni-app",
+    "xiaoiron-uni-ci",
+    "cli",
+    "vue",
+    "miniapp",
+    "create"
+  ],
+  "sideEffects": false,
+  "bin": {
+    "xiaoiron-uni-ci": "dist/outfile.cjs"
+  },
+  "files": [
+    "dist/outfile.cjs",
+    "template"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint:fix": "eslint --fix --ext .js,.ts,.vue,.jsx,.tsx,.json,.md .",
+    "lint": "eslint --ext .js,.ts,.vue .",
+    "prettier": "prettier --write .",
+    "beautify": "pnpm run prettier && \\ pnpm run lint:fix",
+    "prepublishOnly": "nr build",
+    "release": "bumpp",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.8.1",
+    "@types/ejs": "^3.1.5",
+    "@types/fs-extra": "^11.0.4",
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^18.19.50",
+    "@types/prompts": "^2.4.9",
+    "bumpp": "^9.5.2",
+    "ejs": "^3.1.10",
+    "eslint": "^9.22.0",
+    "eslint-plugin-format": "^1.0.1",
+    "json5": "^2.2.3",
+    "kolorist": "^1.8.0",
+    "lint-staged": "^15.2.10",
+    "minimist": "^1.2.8",
+    "path-exists": "^5.0.0",
+    "prettier": "^2.3.2",
+    "prompts": "^2.4.2",
+    "simple-git-hooks": "^2.11.1",
+    "terser": "^5.31.6",
+    "tsup": "^8.2.4",
+    "typescript": "^5.8.2"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}

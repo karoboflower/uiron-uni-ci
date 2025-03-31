@@ -1,0 +1,14 @@
+<%_ for (const entry of entries) { _%>
+  <%- entry.config.ScriptImport %>
+  <%_ } _%>
+  import App from './App.vue'
+  
+  export function createApp() {
+    const app = createSSRApp(App)
+    <%_ for (const entry of entries) { _%>
+    <%- entry.config.userIntries %>
+    <%_ } _%>
+    return {
+      app,
+    }
+  }

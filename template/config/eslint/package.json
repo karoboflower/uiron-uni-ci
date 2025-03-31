@@ -1,0 +1,22 @@
+{
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "lint:fix": "eslint --fix --ext .js,.ts,.vue,.jsx,.tsx,.json,.md src/",
+    "lint": "eslint --ext .js,.ts,.vue src/",
+    "prettier": "prettier --write src",
+    "beautify": "pnpm run prettier && \\ pnpm run lint:fix"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.10.1",
+    "eslint": "^9.22.0",
+    "eslint-plugin-format": "^1.0.1"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue,jsx,tsx,json,css,scss,less,mjs,md}": [
+      "eslint --fix --ext .js,.ts,.vue,.jsx,.tsx,.json,.md",
+      "prettier --write"
+    ]
+  }
+}

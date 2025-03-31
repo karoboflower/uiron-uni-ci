@@ -1,0 +1,7 @@
+.env
+.env.development
+.env.production
+
+/dist/*
+/node_modules/**
+/public/*

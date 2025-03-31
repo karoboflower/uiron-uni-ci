@@ -1,0 +1,35 @@
+<%_ for (const entry of entries) { _%>
+<%_ if (entry.ScriptImport) { _%>
+<%- entry.ScriptImport %>
+<%_ } _%>
+<%_ } _%>
+
+export function configUnplugin() {
+  return [
+    <%_ for (const entry of entries) { _%>
+    <%_ if (entry.id === 'autoComponents') { _%>
+    Components({
+      <%- entry.config %>
+      <%_ if (entry.extraResolvers) { _%>
+        ...{
+          resolvers:[
+          ...
+          [<%- entry.extraResolvers %>]
+          ],
+        }
+      <%_ } _%>
+    }),
+    <%_ } _%>
+    <%_ if (entry.id === 'autoImport') { _%>
+    AutoImport({
+      <%- entry.config %>
+    }),
+    <%_ } _%>
+    <%_ if (entry.id === 'autoTypes') { _%>
+    AutoImportTypes({
+      <%- entry.config %>
+    }),
+    <%_ } _%>
+    <%_ } _%>
+  ]
+}
