@@ -1,21 +1,21 @@
 {
-  "name": "xiaoiron-uni-ci",
+  "name": "uiron-uni-ci",
   "type": "module",
-  "version": "0.0.2-beta.1",
+  "version": "0.0.2-beta.2",
   "packageManager": "pnpm@9.9.0",
   "description": "轻松创建你的 uni-app 项目",
   "author": "1254326645@qq.com",
   "license": "MIT",
-  "homepage": "https://github.com/karoboflower/xiaoiron-uni-ci#readme",
+  "homepage": "https://github.com/karoboflower/uiron-uni-ci#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/karoboflower/xiaoiron-uni-ci.git"
+    "url": "git+https://github.com/karoboflower/uiron-uni-ci.git"
   },
-  "bugs": "https://github.com/karoboflower/xiaoiron-uni-ci/issues",
+  "bugs": "https://github.com/karoboflower/uiron-uni-ci/issues",
   "keywords": [
     "uni",
     "uni-app",
-    "xiaoiron-uni-ci",
+    "uiron-uni-ci",
     "cli",
     "vue",
     "miniapp",
@@ -23,7 +23,7 @@
   ],
   "sideEffects": false,
   "bin": {
-    "xiaoiron-uni-ci": "dist/outfile.cjs"
+    "uiron-uni-ci": "dist/outfile.cjs"
   },
   "files": [
     "dist/outfile.cjs",
