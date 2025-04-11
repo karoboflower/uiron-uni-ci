@@ -1,11 +1,11 @@
-<h1 align="center">✨xiaoiron-uni-ci✨</h1>
+<h1 align="center">✨uiron-uni-ci✨</h1>
 
 <p align="center">
-    <a href="https://www.npmjs.com/package/xiaoiron-uni-ci">
-        <img src="https://img.shields.io/npm/v/xiaoiron-uni-ci?style=for-the-badge&colorA=363a4f&colorB=a6da95" alt="NPM version">
+    <a href="https://www.npmjs.com/package/uiron-uni-ci">
+        <img src="https://img.shields.io/npm/v/uiron-uni-ci?style=for-the-badge&colorA=363a4f&colorB=a6da95" alt="NPM version">
     </a>
-    <a href="https://github.com/karoboflower/xiaoiron-uni-ci/blob/main/LICENSE">
-        <img src="https://img.shields.io/github/license/karoboflower/xiaoiron-uni-ci?style=for-the-badge&colorA=363a4f&colorB=a6da95" alt="License">
+    <a href="https://github.com/karoboflower/uiron-uni-ci/blob/main/LICENSE">
+        <img src="https://img.shields.io/github/license/karoboflower/uiron-uni-ci?style=for-the-badge&colorA=363a4f&colorB=a6da95" alt="License">
     </a>
 </p>
 
@@ -17,10 +17,10 @@
 
 ```shell
 # npm
-    npm create xiaoiron-uni-ci@latest
+    npm create uiron-uni-ci@latest
 
 # pnpm
-    pnpm create xiaoiron-uni-ci
+    pnpm create uiron-uni-ci
 ```
 
 > [!TIP]
@@ -28,7 +28,7 @@
 
 ## 📖 介绍
 
-`xiaoiron-uni-ci` 是一个用于快速创建 uni-app 项目的轻量脚手架工具，它可以帮助你快速创建一个基于`vite`和`vue3`的`uni-app`项目，同时提供了一些模板供你选择。
+`uiron-uni-ci` 是一个用于快速创建 uni-app 项目的轻量脚手架工具，它可以帮助你快速创建一个基于`vite`和`vue3`的`uni-app`项目，同时提供了一些模板供你选择。
 
 <p align="left"><img  src=".github/image/demo.png"></p>
 
@@ -63,7 +63,7 @@ Vite 需要 Node.js 版本 18+ 或 20+
 ## 🤝 参与贡献
 
 - 提交新功能
-- 解决[`issues`](https://github.com/karoboflower/xiaoiron-uni-ci/issues)
+- 解决[`issues`](https://github.com/karoboflower/uiron-uni-ci/issues)
 
 ## 🌸 感谢
 
