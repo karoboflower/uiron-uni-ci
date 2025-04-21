@@ -1,5 +1,5 @@
 {
   "devDependencies": {
-    "unplugin-vue-components": "0.24.1"
+    "@uni-helper/vite-plugin-uni-components": "^0.1.0"
   }
 }

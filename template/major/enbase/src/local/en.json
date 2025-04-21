@@ -1,0 +1,19 @@
+{
+  "menu.home": "Home",
+  "menu.me": "Me",
+  "dialog": {
+    "confirmOperation": "Confirm operation?",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "loading": "Loading"
+  },
+  "update": {
+    "checkUpdate": "Check for updates",
+    "updateTitle": "Update Notice",
+    "updateContent": "New version is ready, restart the application?"
+  },
+  "upload": {
+    "uploading": "Uploading",
+    "compressFailed": "Compression failed"
+  }
+}

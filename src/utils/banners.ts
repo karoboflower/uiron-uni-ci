@@ -2,7 +2,7 @@ import process from 'node:process';
 import { bold, lightCyan } from 'kolorist';
 
 export function printBanner() {
-  const text = 'Uni-creator - 快速创建 uni-app 项目';
+  const text = ' 快速创建 uni-app 项目';
   let colorText = '';
 
   const startColor = { r: 0x3b, g: 0xd1, b: 0x91 };

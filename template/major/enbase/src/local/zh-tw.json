@@ -1,0 +1,19 @@
+{
+  "menu.home": "首頁",
+  "menu.me": "我的",
+  "dialog": {
+    "confirmOperation": "確認操作嗎?",
+    "confirm": "確定",
+    "cancel": "取消",
+    "loading": "加載中"
+  },
+  "update": {
+    "checkUpdate": "是否有更新",
+    "updateTitle": "更新提示",
+    "updateContent": "新版本已經準備好，是否重啟應用？"
+  },
+  "upload": {
+    "uploading": "上傳中",
+    "compressFailed": "壓縮失敗"
+  }
+}

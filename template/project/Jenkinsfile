@@ -1,0 +1,196 @@
+import groovy.json.JsonOutput
+def getCommitMessage() {
+    def proc = "git log -1 --pretty=%B --skip=1".execute(null, new File(env.WORKSPACE))
+    proc.waitFor()
+    return proc.in.text.trim()
+}
+pipeline {
+  agent {
+    docker {
+      reuseNode 'true'
+      registryUrl 'https://coding-public-docker.pkg.coding.net'
+      image 'public/docker/nodejs:18-2022'
+      args '-v /root/.m2:/root/.m2 -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock'
+    }
+  }
+  stages {
+    stage('检出') {
+    steps {
+            checkout([
+            $class: 'GitSCM',
+              branches: [[name: GIT_BUILD_REF]],
+              doGenerateSubmoduleConfigurations: false,
+               // 此处配置 Submodule 的检出规则
+              extensions: [[
+                $class: 'SubmoduleOption',
+                  // 是否禁用检出 Submodule
+                disableSubmodules: false,
+                // 是否允许检出时使用 Parent Project 的用户凭据
+                parentCredentials: false,
+                // 是否递归检出所有 Submodule 的更新
+                recursiveSubmodules: true,
+                // 指定参考仓库的路径
+                reference: '',
+                // 是否追踪 .gitmodules 文件中配置的分支的最新提交
+                trackingSubmodules: false
+              ]],
+              userRemoteConfigs: [
+              [
+              url: GIT_REPO_URL,
+              credentialsId: CREDENTIALS_ID
+              ],
+              [
+              credentialsId: CREDENTIALS_ID,
+              url: 'git@e.coding.net:serverless-100013832940/smiron-web/motern-uni-ui.git'
+              ]
+              // 如果有更多的 Submodules ，可以在这里增加配置
+              ]
+              ])
+          }
+    }
+    stage('依赖漏洞扫描') {
+      steps {
+        npmAuditInDir(directory: '/', collectResult: true)
+      }
+    }
+    stage('构建镜像并推送到小程序') {
+      steps {
+        script {
+          docker.withRegistry(
+            "${CCI_CURRENT_WEB_PROTOCOL}://${CODING_DOCKER_REG_HOST}",
+            "${CODING_ARTIFACTS_CREDENTIALS_ID}"
+          ) {
+            def envValue
+             if (BRANCH == 'test-master') {
+              //替换成自己打包到测试环境的命令
+                 envValue = 'build:test'
+              } else if(BRANCH == 'master'){
+                 //替换成自己打包到正式环境的命令
+                envValue = 'build:pro'
+              }  else if(BRANCH == 'release') {
+                 envValue = 'build:release'
+            }
+            if(!envValue){
+              return;
+            }
+            sh 'ls'
+            sh 'cd src/uni_modules && ls'
+            sh "chmod +x ./build/build.sh"
+            sh "./build/build.sh"
+            def version = sh(script: "git describe --tags \$(git rev-list --tags --max-count=1)", returnStdout: true).trim();
+            def dockerImage = docker.build("${CODING_DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}", "-f ${DOCKERFILE_PATH} ${DOCKER_BUILD_CONTEXT} --build-arg ENV=${envValue} --build-arg VERSION=${version}");
+             def containerId = dockerImage.run("-d --name my-app-container").id
+            // 正式环境打tag 并提交到public分支
+            sh "docker cp my-app-container:${PRO_DIR}/. ./dist"
+            sh "cd ./dist/build/h5 && zip -r ../../../h5.zip ./*"
+            sh "docker rm -f ${containerId}"
+          }
+        }
+
+      }
+    }
+    stage('推送打包文件到仓库') {
+      steps {
+         script {
+          def BRANCH_ID = "${BRANCH}"
+          if (BRANCH_ID == 'master') {
+            //重新将打包后的文件合并到上一次的commit
+            sh "git add ."
+            sh "git status"
+            sh "git commit --amend --no-edit"
+            sh "git push ${GIT_URL} --tags"
+            // 推送到public分支作为tag记录 暂时强推 tag作为报错记录
+            sh "git push ${GIT_URL} HEAD:public -f"
+          }
+        }
+      }
+    }
+      stage('部署到远端服务') {
+      steps {
+        script {
+          def remoteConfig = [:]
+          // 根据不同的分支上传到不同的远端服务器
+          // def CRED_ID = "${REMOTE_CRED}"
+          def CRED_ID = ""
+          def CRED_HOST = "${REMOTE_HOST}"
+          def CRED_PORT = "${REMOTE_SSH_PORT}"
+          def BRANCH_ID = "${BRANCH}"
+          // 测试分支
+          def DEPLOY_DIR = '/home/ubuntu/workspace/locker/test'
+          if (BRANCH_ID == 'master') {
+             CRED_ID = "${REMOTE_CRED}"
+            CRED_HOST = "${REMOTE_HOST}"
+            CRED_PORT = "${REMOTE_SSH_PORT}"
+            DEPLOY_DIR = '/home/ubuntu/workspace/locker/h5'
+          } else if (BRANCH_ID == 'test-master') {
+            CRED_ID = "${TEST_REMOTE_CORD}"
+            CRED_HOST = "${TEST_REMOTE_HOST}"
+            CRED_PORT = "${TEST_REMOTE_SSH_PORT}"
+            DEPLOY_DIR = '/home/ubuntu/workspace/locker/test/h5'
+          } else  if(BRANCH_ID == 'release'){
+            CRED_ID = "${TEST_REMOTE_CORD}"
+            CRED_HOST = "${TEST_REMOTE_HOST}"
+            CRED_PORT = "${TEST_REMOTE_SSH_PORT}"
+            DEPLOY_DIR = '/home/ubuntu/workspace/locker/release/h5'
+          }
+          remoteConfig.name = "my-remote-server"
+          remoteConfig.host = "${CRED_HOST}"
+          remoteConfig.port = "${CRED_PORT}".toInteger()
+          remoteConfig.allowAnyHosts = true
+          withCredentials([usernamePassword(
+            credentialsId: "${CRED_ID}",
+            passwordVariable: 'password',
+            usernameVariable: 'userName'
+          ), usernamePassword(
+            credentialsId: "${CODING_ARTIFACTS_CREDENTIALS_ID}",
+            usernameVariable: 'CODING_DOCKER_REG_USERNAME',
+            passwordVariable: 'CODING_DOCKER_REG_PASSWORD'
+          )]) {
+            // SSH 登录用户名
+            remoteConfig.user = userName
+            remoteConfig.password = password
+           if(BRANCH == 'master'){
+           } else {
+            sshCommand(
+              remote: remoteConfig,
+              command: "sudo rm -rf ${DEPLOY_DIR}/*",
+              sudo: true,
+            )
+           }
+            sshPut(
+              remote: remoteConfig,
+              from: "h5.zip",
+              into: "${DEPLOY_DIR}",
+              sudo: true
+            )
+            if(BRANCH == 'master'){
+              // master 部署时再解压
+              return;
+            } else {
+              sshCommand(
+                remote: remoteConfig,
+                command: "sudo unzip -o ${DEPLOY_DIR}/h5.zip -d ${DEPLOY_DIR}",
+                sudo: true,
+              )
+            }
+         
+            // DOCKER_IMAGE_VERSION 中涉及到 GIT_LOCAL_BRANCH / GIT_TAG / GIT_COMMIT 的环境变量的使用
+            // 需要在本地完成拼接后，再传入到远端服务器中使用
+            echo "文件列表："
+            echo "cd ${DEPLOY_DIR}  && sudo ls "
+            echo "部署成功"
+          }
+        }
+
+      }
+    }
+  }
+  environment {
+    CODING_DOCKER_REG_HOST = "${CCI_CURRENT_TEAM}-docker.pkg.${CCI_CURRENT_DOMAIN}"
+    CODING_DOCKER_IMAGE_NAME = "${PROJECT_NAME.toLowerCase()}/${DOCKER_REPO_NAME}/${DOCKER_IMAGE_NAME}"
+    BRANCH = "${GIT_LOCAL_BRANCH}"
+    //替换成自己仓库地址
+    GIT_URL = "https://${PROJECT_TOKEN_GK}:${PROJECT_TOKEN}@e.coding.net/serverless-100013832940/xiaoiron.com/web_client_mini.git"
+    PRO_DIR = '/usr/src/app/dist'
+  }
+}

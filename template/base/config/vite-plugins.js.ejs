@@ -7,18 +7,19 @@
 export function configUnplugin() {
   return [
     <%_ for (const entry of entries) { _%>
+    <%_ if (entry.id === 'page') { _%>
+      // @see https://uni-helper.js.org/vite-plugin-uni-pages
+      UniPages({
+        exclude: ['**/components/**/**.*'],
+        routeBlockLang: 'json5', // 虽然设了默认值，但是vue文件还是要加上 lang="json5", 这样才能很好地格式化
+        subPackages: [sub-pages/common'], // arrray
+        dts: 'types/uni-pages.d.ts',
+      }),
+    <%_ } _%>
     <%_ if (entry.id === 'autoComponents') { _%>
-    Components({
-      <%- entry.config %>
-      <%_ if (entry.extraResolvers) { _%>
-        ...{
-          resolvers:[
-          ...
-          [<%- entry.extraResolvers %>]
-          ],
-        }
-      <%_ } _%>
-    }),
+      Components({
+        <%- entry.config %>
+      }),
     <%_ } _%>
     <%_ if (entry.id === 'autoImport') { _%>
     AutoImport({
@@ -30,6 +31,9 @@ export function configUnplugin() {
       <%- entry.config %>
     }),
     <%_ } _%>
+    <%_ if (entry.id === 'manifest' || entry.id==='uniku') { _%>
+      <%- entry.ScriptContent %>
+    <%_ } _%>   
     <%_ } _%>
-  ]
+  ];
 }

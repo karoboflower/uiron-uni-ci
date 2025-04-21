@@ -38,5 +38,26 @@
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
-  }
+  },
+  "subPackages": [
+    {
+      "root": "sub-pages/common",
+      "pages": [
+        {
+          "name": "common.login",
+          "path": "login/index",
+          "style": {
+            "navigationBarTitleText": "登录"
+          }
+        },
+        {
+          "name": "common.login",
+          "path": "authorize/index",
+          "style": {
+            "navigationBarTitleText": "认证"
+          }
+        }
+      ]
+    }
+  ]
 }

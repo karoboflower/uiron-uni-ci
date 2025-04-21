@@ -1,7 +1,5 @@
 import process from 'node:process';
 import { green, red } from 'kolorist';
-import figures from 'prompts/lib/util/figures.js';
-
 const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
 export class Ora {
   private message: string;
@@ -29,13 +27,13 @@ export class Ora {
   fail(message: string): void {
     if (!this.interval) return;
     clearInterval(this.interval);
-    process.stdout.write('\r' + `${red(figures.cross)} ${this.setFinishMessage(message)}\n`);
+    process.stdout.write('\r' + `${red('✖︎')} ${this.setFinishMessage(message)}\n`);
   }
 
   succeed(message: string): void {
     if (!this.interval) return;
     clearInterval(this.interval);
-    process.stdout.write('\r' + `${green(figures.tick)} ${this.setFinishMessage(message)}\n`);
+    process.stdout.write('\r' + `${green('✔︎')} ${this.setFinishMessage(message)}\n`);
   }
 
   finish(): void {

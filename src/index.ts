@@ -1,23 +1,27 @@
 #!/usr/bin/env node
 
 import { existsSync, mkdirSync, readFileSync, rmdirSync, unlinkSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { join } from 'node:path';
 import process from 'node:process';
 import ejs from 'ejs';
 import JSON5 from 'json5';
 import { bold, green } from 'kolorist';
 import minimist from 'minimist';
 import prompts from 'prompts';
-
-import { question } from './questions';
+import { TemplateTypeEnum } from './const/enum';
+import { question, templateTypeQuestion } from './questions';
 import filePrompt from './questions/file';
 import { cancelMesssage, onCancel } from './questions/onCancel';
 import {
   canSkipEmptying,
+  getTemplateBase,
+  getTemplateMajor,
+  getTemplateProject,
   ora,
   preOrderDirectoryTraverse,
+  printBanner,
   printFinish,
-  renderTemplate,
+  render,
   replaceProjectName,
 } from './utils';
 
@@ -33,20 +37,24 @@ async function init() {
       pluginList: ['p'],
       UIName: ['ui', 'u'],
       needsEslint: ['eslint', 'e'],
+      needsI18n: ['i18n', 'en'],
     },
     string: ['_'],
   });
-  // printBanner()
 
+  printBanner();
   const projectName = argv._[0];
 
   let result: {
     projectName?: string;
     shouldOverwrite?: boolean;
+    templateType?: string;
     pluginList?: string[];
     UIName?: string | null;
     needsEslint?: boolean;
     needsI18n?: boolean;
+    needsTailwind?: boolean;
+    needsTheme?: boolean;
   } = {};
 
   if (!projectName) {
@@ -58,33 +66,32 @@ async function init() {
     }
   } else {
     const UIName = validateUIName(argv.UIName);
-    console.log('getData pluginList', argv.pluginList);
     const pluginList = validatePlugins(argv.pluginList);
-    console.log('getData pluginLists', pluginList);
     const shouldOverwrite = canSkipEmptying(projectName)
       ? true
       : (await prompts(filePrompt(projectName), { onCancel })).shouldOverwrite;
-
     result = {
       projectName,
       shouldOverwrite,
       pluginList,
       UIName,
+      templateType: argv.templateType,
       needsEslint: argv['needsEslint'!],
       needsI18n: argv['needsI18n'!],
     };
   }
-
+  const templateType = result.templateType;
+  const templateResult = await templateTypeQuestion(templateType);
+  result = { ...result, ...templateResult };
   loading = ora(`${bold('正在创建模板...')}`).start();
   const cwd = process.cwd();
-  const root = join(cwd, result.projectName!);
+  const root = join(process.cwd(), `${result.projectName!}`);
   const userAgent = process.env.npm_config_user_agent ?? 'pnpm';
-  console.log('process.env.npm_config_user_agent', process.env);
   const packageManager = /pnpm/.test(userAgent) ? 'pnpm' : /yarn/.test(userAgent) ? 'yarn' : 'npm';
 
   function emptyDir(dir: string) {
     if (!existsSync(dir)) return;
-
+    console.log('template--emptyDir', dir);
     postOrderDirectoryTraverse(
       dir,
       (dir) => rmdirSync(dir),
@@ -94,41 +101,23 @@ async function init() {
 
   if (existsSync(root) && result.shouldOverwrite) emptyDir(root);
   else if (!existsSync(root)) mkdirSync(root);
-  const templateRoot = resolve(__dirname, './../template');
-
-  type Callback = (dataStore: Record<string, any>) => void;
-  const callbacks: Callback[] = [];
-  function render(templateName: string) {
-    const templateDir = resolve(templateRoot, templateName);
-    renderTemplate(templateDir, root, callbacks);
-  }
-  render('base');
-  const needUI = Boolean(result.UIName);
-
-  // Render Config
-  const config = {
-    eslint: result.needsEslint,
-    en: result.needsI18n,
-  };
-
-  for (const [key, needs] of Object.entries(config)) {
-    if (needs) render(`config/${key}`);
-  }
-
-  // Render Plugins
-  result.pluginList?.forEach((plugin) => render(`plugin/${plugin}`));
-  // Render ui
-  const ui = {
-    [result.UIName!]: needUI,
-  };
-
-  for (const [key, needs] of Object.entries(ui)) {
-    if (needs) render(`ui/${key}`);
-  }
-
   const dataStore: Record<string, any> = {};
-  // Process callbacks
-  for (const cb of callbacks) await cb(dataStore);
+  // render base template
+  const templates = getTemplateBase(result);
+  console.log('template--baseTemplates', templates);
+  await render(templates, result, dataStore, root);
+  // render major template
+  if (result.templateType === TemplateTypeEnum.major) {
+    const majorTemplates = getTemplateMajor(result);
+    console.log('template--majorTemplates', majorTemplates);
+    await render(majorTemplates, result, dataStore, root);
+  }
+  // render project template
+  if (result.templateType === TemplateTypeEnum.project) {
+    const projectTemplates = getTemplateProject(result);
+    console.log('template--projectTemplates', projectTemplates);
+    await render(projectTemplates, result, dataStore, root);
+  }
   preOrderDirectoryTraverse(
     root,
     () => {},
@@ -144,8 +133,14 @@ async function init() {
             return item;
           });
         }
-        console.log('getData dataStore[dest]', dest, filepath, dataStore, dataStore[dest]);
-        const content = ejs.render(template, { entries: dataStore[dest] });
+        let content = '';
+        if (dest.includes('vite.config') && result.pluginList?.length) {
+          content = ejs.render(template, { entries: dataStore[dest] || [], isPlugin: true });
+        } else {
+          console.log('template--items', template);
+          content = ejs.render(template, { entries: dataStore[dest] || [] });
+        }
+        console.log('template--lists', filepath, dataStore[dest]);
         const tsDest = dest.replace(/\.js$/, '.ts');
         writeFileSync(tsDest, content);
         unlinkSync(filepath);
@@ -160,6 +155,6 @@ async function init() {
 init().catch((error) => {
   console.log(cancelMesssage);
   console.log(error.message.includes('操作已取消') ? '' : error);
-  console.log(`🚀 遇到问题? 快速反馈：${green('https://github.com/karoboflower/uiron-uni-ci/issues/new')}`);
+  console.log(`🚀 遇到问题? 快速反馈：${green('https://github.com/karoboflower/xiaoiron-uni-ci/issues/new')}`);
   process.exit(0);
 });

@@ -1,21 +1,16 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { pathToFileURL } from 'node:url';
-
 import { deepMerge } from './deepMerge';
 import { sortDependencies } from './sortDependencies';
-
+type Callback = (dataStore: Record<string, any>) => void;
+type RecordType = Record<string, any>;
 /**
  * Renders a template folder/file to the file system,
  * by recursively copying all files under the `src` directory,
- * with the following exception:
- *   - `_filename` should be renamed to `.filename`
- *   - Fields in `package.json` should be recursively merged
  * @param {string} src source filename to copy
  * @param {string} dest destination filename of the copy operation
  */
-type Callback = (dataStore: Record<string, any>) => void;
-
 export function renderTemplate(src: string, dest: string, callbacks: Callback[]) {
   const stats = fs.statSync(src);
 
@@ -78,6 +73,7 @@ export function renderTemplate(src: string, dest: string, callbacks: Callback[])
       dataStore[dest] = await getData({
         oldData: dataStore[dest] || [],
       });
+      // if the data is an array, sort it
     });
 
     return; // skip copying the data file
@@ -85,3 +81,54 @@ export function renderTemplate(src: string, dest: string, callbacks: Callback[])
 
   fs.copyFileSync(src, dest);
 }
+export async function render(templates: RecordType, argv: RecordType, dataStore: RecordType = {}, root: string) {
+  const templateRoot = path.resolve(__dirname, './../template');
+  const callbacks: Callback[] = [];
+  function renderItem(templateName: string) {
+    const templateDir = path.resolve(templateRoot, templateName);
+    renderTemplate(templateDir, root, callbacks);
+  }
+  for (const [key, needs] of Object.entries(templates)) {
+    if (needs) renderItem(`${key}`);
+  }
+  // Process callbacks
+  for (const cb of callbacks) await cb(dataStore);
+}
+export const getTemplateBase = (argv: RecordType) => {
+  const baseTemplate: RecordType = {
+    base: true, // base template
+    'config/eslint': argv.needsEslint!, // eslint config
+    'config/en': argv.needsI18n!, // i18n config
+  };
+   // Add plugins to the template
+  for (let i = 0; i < argv.pluginList.length; i++) {
+    const plugin = argv.pluginList[i];
+    baseTemplate[`plugin/${plugin}`] = true;
+  }
+  if (argv.UIName) {
+    baseTemplate[`ui/${argv.UIName}`] = true; // vite plugins config
+  }
+  return baseTemplate;
+};
+export const getTemplateMajor = (argv: RecordType) => {
+  const majorTemplate: RecordType = {
+    'major/config/tailwind': argv.needsTailwind,
+    'major/config/theme': argv.needsTheme,
+  };
+  if (argv.needsI18n) {
+    majorTemplate['major/enbase'] = true;
+  } else {
+    majorTemplate['major/base'] = true;
+  }
+  return majorTemplate;
+};
+export const getTemplateProject = (argv: RecordType) => {
+  const majorTemplate: RecordType = {
+    'major/base': true,
+    'config/tailwind': argv.needsTailwind,
+  };
+  if (argv.needsI18n) {
+    majorTemplate['major/enbase'] = true;
+  }
+  return majorTemplate;
+};

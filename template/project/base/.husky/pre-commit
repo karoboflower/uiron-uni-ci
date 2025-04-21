@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+pnpm exec lint-staged
+
+# # 解决更新子模块问题22
+# echo "正在获取最新子模块..."
+# git submodule update --remote
+
+
+# # 检查子模块是否有更新
+# if [[ $(git diff --submodule=diff) ]]; then
+#   echo "更新子模块，添加到暂存区."
+
+#   git add src/uni_modules
+# else
+#   echo "没有检测到子模块更新..."
+# fi

@@ -1,29 +1,13 @@
 export default function getData({ oldData }) {
-  const resolvers = `
-        (name) => {
-           function kebabCase(key: string) {
-                const result = key.replace(/([A-Z])/g, ' $1').trim();
-                return result.split(' ').join('-').toLowerCase();
-            }
-            if (isExclude(name, options.exclude) || name === 'UniLayout') {
-              return
-            }
-           if (name.match(/^Uni[A-Z]/)) {
-            const compName = kebabCase(name);
-            return {
-              name,
-              from: \`@climblee/uv-ui/components/\$\{compName}/\$\{compName\}.vue\`,
-            }
-          }
-        }
-      `;
   const autoImportPlugin = {
     id: 'autoComponents',
-    extraResolvers: resolvers,
+    ScriptImport: `import { UvResolver } from '@uni-helper/vite-plugin-uni-components/resolvers';`,
+    config: `resolvers: [UvResolver()],`,
   };
   const configIndex = oldData.findIndex((item) => item.id === 'autoComponents');
   if (configIndex !== -1) {
-    oldData[configIndex].extraResolvers = (oldData[configIndex].extraResolvers || '') + autoImportPlugin.extraResolvers;
+    oldData[configIndex].config = (oldData[configIndex].config || '') + '\n' + autoImportPlugin.config;
+    oldData[configIndex].ScriptImport = (oldData[configIndex].ScriptImport || '') + '\n' + autoImportPlugin.ScriptImport;
   }
   return oldData;
 }

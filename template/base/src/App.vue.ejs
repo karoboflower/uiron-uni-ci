@@ -2,19 +2,16 @@
   <%_ for (const entry of entries) { _%>
   <%- entry.config.ScriptImport %>
   <%_ } _%>
-  
   onLaunch(() => {
   <%_ for (const entry of entries) { _%>
   <%- entry.config.ScriptonLaunch %>
   <%_ } _%>
   });
-  
   onShow(() => {
   <%_ for (const entry of entries) { _%>
   <%- entry.config.ScriptonShow %>
   <%_ } _%>
   });
-  
   onHide(() => {
   <%_ for (const entry of entries) { _%>
   <%- entry.config.ScriptononHide %>

@@ -1,2 +1,3 @@
-<template><view>home</view></template>
-;
+<template>
+  <view>home</view>
+</template>

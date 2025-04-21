@@ -2,7 +2,6 @@ import process from 'node:process';
 import { canSkipEmptying } from '@/utils';
 import type { PromptObject } from 'prompts';
 import { cancelMesssage } from './onCancel';
-
 export default (targetDir?: string): PromptObject<string>[] => {
   return [
     {
@@ -14,7 +13,7 @@ export default (targetDir?: string): PromptObject<string>[] => {
 
         return `${dirForPrompt}非空，是否覆盖？`;
       },
-      initial: false,
+      initial: true,
       active: '是',
       inactive: '否',
     },
