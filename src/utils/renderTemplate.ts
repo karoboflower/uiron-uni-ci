@@ -108,6 +108,10 @@ export const getTemplateBase = (argv: RecordType) => {
   if (argv.UIName) {
     baseTemplate[`ui/${argv.UIName}`] = true; // vite plugins config
   }
+  // layouts config
+  if (argv.pluginList.includes('layouts') && argv.UIName) {
+    baseTemplate[`merge/layout-ui-${argv.UIName}`] = true;
+  }
   return baseTemplate;
 };
 export const getTemplateMajor = (argv: RecordType) => {

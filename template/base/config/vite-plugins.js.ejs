@@ -12,7 +12,7 @@ export function configUnplugin() {
       UniPages({
         exclude: ['**/components/**/**.*'],
         routeBlockLang: 'json5', // 虽然设了默认值，但是vue文件还是要加上 lang="json5", 这样才能很好地格式化
-        subPackages: [sub-pages/common'], // arrray
+        subPackages: ['src/sub-pages/common'], // arrray
         dts: 'types/uni-pages.d.ts',
       }),
     <%_ } _%>
@@ -31,7 +31,7 @@ export function configUnplugin() {
       <%- entry.config %>
     }),
     <%_ } _%>
-    <%_ if (entry.id === 'manifest' || entry.id==='uniku') { _%>
+    <%_ if (entry.id === 'manifest' || entry.id==='layouts' || entry.id==='changeThemefiles') { _%>
       <%- entry.ScriptContent %>
     <%_ } _%>   
     <%_ } _%>

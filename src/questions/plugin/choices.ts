@@ -23,9 +23,9 @@ export default [
     description: '提供基于文件系统的路由',
   },
   {
-    title: rgb(241, 196, 15)('uni-ku/root'),
-    value: 'uniku',
-    description: '借助 Vite 模拟出虚拟根组件(支持SFC的App.vue)，解决 uniapp 无法使用公共组件问题',
+    title: rgb(241, 196, 15)('vite-plugin-uni-layouts'),
+    value: 'layouts',
+    description: '提供类 nuxt 的 layouts 系统',
   },
   {
     title: rgb(46, 204, 113)('vite-plugin-uni-manifest'),

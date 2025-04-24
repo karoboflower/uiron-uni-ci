@@ -10,16 +10,32 @@ export default function getData({ oldData }) {
   configContent: `
   const themeSrc = themeSrcMap[env.VITE_THEME] || themeSrcMap.yellow;
   `,
+  extraConfig: `css: {
+      postcss,
+      preprocessorOptions: {
+        scss: {
+          additionalData: themeSrc,
+        },
+      },
+    },`,
+  extraConfig2: `css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: themeSrc,
+        },
+      },
+    },`,
   };
   const configIndex = oldData.findIndex((item) => item.id === 'ViteConfig');
-  const css = `\`\${themeSrc}\``;
   if (configIndex !== -1) {
-    // oldData[configIndex].ScriptImport += ViteConfig.ScriptImport;
     oldData[configIndex].configContent += ViteConfig.configContent;
     oldData[configIndex].ScriptContent += ViteConfig.ScriptContent;
-    // todo
-    // const { additionalData } = oldData[configIndex].extraConfig.css.preprocessorOptions.scss;
-    // oldData[configIndex].extraConfig.css.preprocessorOptions.scss.additionalData = additionalData + css;
+    const extraConfig = oldData[configIndex].extraConfig;
+    if (extraConfig.includes('postcss')) {
+      oldData[configIndex].extraConfig = ViteConfig.extraConfig;
+    } else {
+      oldData[configIndex].extraConfig = ViteConfig.extraConfig2;
+    }
   }
   return oldData;
 }

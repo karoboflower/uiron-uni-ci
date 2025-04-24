@@ -48,9 +48,7 @@ function determineLanguage(languageLow: string): string {
   } else if (languageLow.includes('zh')) {
     return 'zh';
   }
-  {
-    return 'en';
-  }
+  return 'en';
 }
 
 const getLanguageStorage = () => {

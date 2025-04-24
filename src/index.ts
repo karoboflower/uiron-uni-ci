@@ -38,6 +38,8 @@ async function init() {
       UIName: ['ui', 'u'],
       needsEslint: ['eslint', 'e'],
       needsI18n: ['i18n', 'en'],
+      needsTailwind: ['tailwind', 'tw'],
+      needsTheme: ['theme', 'th'],
     },
     string: ['_'],
   });
@@ -104,18 +106,15 @@ async function init() {
   const dataStore: Record<string, any> = {};
   // render base template
   const templates = getTemplateBase(result);
-  console.log('template--baseTemplates', templates);
   await render(templates, result, dataStore, root);
   // render major template
   if (result.templateType === TemplateTypeEnum.major) {
     const majorTemplates = getTemplateMajor(result);
-    console.log('template--majorTemplates', majorTemplates);
     await render(majorTemplates, result, dataStore, root);
   }
   // render project template
   if (result.templateType === TemplateTypeEnum.project) {
     const projectTemplates = getTemplateProject(result);
-    console.log('template--projectTemplates', projectTemplates);
     await render(projectTemplates, result, dataStore, root);
   }
   preOrderDirectoryTraverse(
@@ -125,14 +124,14 @@ async function init() {
       if (filepath.endsWith('.ejs')) {
         const template = readFileSync(filepath, 'utf-8');
         const dest = filepath.replace(/\.ejs$/, '');
-        if (dest.includes('vite.config') || dest.includes('vite-plugins')) {
-          dataStore[dest] = dataStore[dest]?.map((item: any) => {
-            if (item.extraConfig) {
-              item.extraConfig = JSON5.stringify(item.extraConfig, null, 2).slice(1, -1).trim();
-            }
-            return item;
-          });
-        }
+        // if (dest.includes('vite.config') || dest.includes('vite-plugins')) {
+        //   dataStore[dest] = dataStore[dest]?.map((item: any) => {
+        //     if (item.extraConfig) {
+        //       item.extraConfig = JSON5.stringify(item.extraConfig, null, 2).slice(1, -1).trim();
+        //     }
+        //     return item;
+        //   });
+        // }
         let content = '';
         if (dest.includes('vite.config') && result.pluginList?.length) {
           content = ejs.render(template, { entries: dataStore[dest] || [], isPlugin: true });

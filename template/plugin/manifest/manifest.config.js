@@ -57,8 +57,6 @@ export default defineManifestConfig({
       urlCheck: false,
     },
     usingComponents: true,
-    darkmode: true,
-    themeLocation: "theme.json",
   },
   "mp-alipay": {
     usingComponents: true,
@@ -68,10 +66,6 @@ export default defineManifestConfig({
   },
   "mp-toutiao": {
     usingComponents: true,
-  },
-  h5: {
-    darkmode: true,
-    themeLocation: "theme.json",
   },
   uniStatistics: {
     enable: false,
