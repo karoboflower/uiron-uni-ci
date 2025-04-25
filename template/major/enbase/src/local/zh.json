@@ -1,0 +1,19 @@
+{
+  "menu.home": "首页",
+  "menu.me": "我的",
+  "dialog": {
+    "confirmOperation": "确认操作吗?",
+    "confirm": "确定",
+    "cancel": "取消",
+    "loading": "加载中"
+  },
+  "update": {
+    "checkUpdate": "是否有更新",
+    "updateTitle": "更新提示",
+    "updateContent": "新版本已经准备好，是否重启应用？"
+  },
+  "upload": {
+    "uploading": "上传中",
+    "compressFailed": "压缩失败"
+  }
+}

@@ -123,11 +123,7 @@ export const getTemplateMajor = (argv: RecordType) => {
   if (argv.themes && argv.themes !== 'null') {
     majorTemplate[`major/config/${argv.themes}`] = true;
   }
-  if (argv.needsI18n) {
-    majorTemplate['major/enbase'] = true;
-  } else {
-    majorTemplate['major/base'] = true;
-  }
+  majorTemplate['major/base'] = true;
   return majorTemplate;
 };
 export const getTemplateProject = () => {

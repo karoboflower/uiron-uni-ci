@@ -6371,11 +6371,7 @@ var getTemplateMajor = (argv) => {
   if (argv.themes && argv.themes !== "null") {
     majorTemplate[`major/config/${argv.themes}`] = true;
   }
-  if (argv.needsI18n) {
-    majorTemplate["major/enbase"] = true;
-  } else {
-    majorTemplate["major/base"] = true;
-  }
+  majorTemplate["major/base"] = true;
   return majorTemplate;
 };
 var getTemplateProject = () => {
@@ -6553,6 +6549,9 @@ async function init() {
   if (!projectName) {
     try {
       result = await question();
+      const templateType = result.templateType || "base";
+      const templateResult = await templateTypeQuestion(templateType);
+      result = { ...result, ...templateResult };
     } catch (cancelled) {
       console.log(cancelled.message);
       import_node_process5.default.exit(1);
@@ -6572,9 +6571,6 @@ async function init() {
       themes: argv.themes
     };
   }
-  const templateType = result.templateType;
-  const templateResult = await templateTypeQuestion(templateType);
-  result = { ...result, ...templateResult };
   loading = ora(`${bold("\u6B63\u5728\u521B\u5EFA\u6A21\u677F...")}`).start();
   const cwd = import_node_process5.default.cwd();
   const root = (0, import_node_path3.join)(import_node_process5.default.cwd(), `${result.projectName}`);
@@ -6582,7 +6578,6 @@ async function init() {
   const packageManager = /pnpm/.test(userAgent) ? "pnpm" : /yarn/.test(userAgent) ? "yarn" : "npm";
   function emptyDir(dir) {
     if (!(0, import_node_fs3.existsSync)(dir)) return;
-    console.log("template--emptyDir", dir);
     postOrderDirectoryTraverse(
       dir,
       (dir2) => (0, import_node_fs3.rmdirSync)(dir2),
@@ -6617,12 +6612,13 @@ async function init() {
         const dest = filepath.replace(/\.ejs$/, "");
         let content = "";
         if (dest.includes("vite.config") && ((_a = result.pluginList) == null ? void 0 : _a.length)) {
-          content = import_ejs.default.render(template, { entries: dataStore[dest] || [], isPlugin: true });
+          content = import_ejs.default.render(template, {
+            entries: dataStore[dest] || [],
+            isPlugin: true
+          });
         } else {
-          console.log("template--items", template);
           content = import_ejs.default.render(template, { entries: dataStore[dest] || [] });
         }
-        console.log("template--lists", filepath, dataStore[dest]);
         const tsDest = dest.replace(/\.js$/, ".ts");
         (0, import_node_fs3.writeFileSync)(tsDest, content);
         (0, import_node_fs3.unlinkSync)(filepath);
@@ -6635,7 +6631,11 @@ async function init() {
 init().catch((error) => {
   console.log(cancelMesssage);
   console.log(error.message.includes("\u64CD\u4F5C\u5DF2\u53D6\u6D88") ? "" : error);
-  console.log(`\u{1F680} \u9047\u5230\u95EE\u9898? \u5FEB\u901F\u53CD\u9988\uFF1A${green("https://github.com/karoboflower/xiaoiron-uni-ci/issues/new")}`);
+  console.log(
+    `\u{1F680} \u9047\u5230\u95EE\u9898? \u5FEB\u901F\u53CD\u9988\uFF1A${green(
+      "https://github.com/karoboflower/xiaoiron-uni-ci/issues/new"
+    )}`
+  );
   import_node_process5.default.exit(0);
 });
 /*! Bundled license information:

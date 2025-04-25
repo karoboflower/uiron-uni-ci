@@ -13,7 +13,6 @@ import UniManifest from '@uni-helper/vite-plugin-uni-manifest';
 
 export function configUnplugin(env) {
   return [
-    <%_ for (const entry of entries) { _%>
     AutoImportTypes({
       dtsDir: 'types',
       filepath: '.eslintrc-auto-import-types.json',
@@ -47,8 +46,9 @@ export function configUnplugin(env) {
     // 依赖于 @uni-helper/vite-plugin-uni-pages
     UniLayouts(),
     UniManifest(),
+    <%_ for (const entry of entries) { _%>
     <%_ if (entry.id === 'changeThemefiles' || entry.id ==='unocss') { _%>
-      <%- entry.ScriptContent %>
+    <%- entry.ScriptContent %>
     <%_ } _%>   
     <%_ } _%>
   ];

@@ -8,8 +8,7 @@ export default function getData({ oldData }) {
         enabled: true,
         filepath: './.eslintrc-auto-import.json',
         globalsPropValue: 'readonly',
-      },
-    `,
+      },`,
   };
   const configIndex = oldData.findIndex((item) => item.id === 'autoImport');
   if (configIndex !== -1) {
