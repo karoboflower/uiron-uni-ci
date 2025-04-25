@@ -83,10 +83,17 @@ const setTabBarLanguage = () => {
   ];
   for (let i = 0; i < mapTabBar.length; i++) {
     const { index, text } = mapTabBar[i];
-    uni.setTabBarItem({
-      index,
-      text,
-    });
+    try {
+      const timer = setTimeout(() => {
+        uni.setTabBarItem({
+          index,
+          text,
+        });
+        clearTimeout(timer);
+      }, 1000);
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 };
 export { changeLanguage, I18n, Langs, langsMap, setSystemLanguage, setTabBarLanguage, t };
