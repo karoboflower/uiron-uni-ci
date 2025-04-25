@@ -1,0 +1,30 @@
+import { createSSRApp } from 'vue';
+import store from '@/store/setup';
+import { I18n } from '@/local';
+import App from './App.vue';
+import { isDev } from '@/utils/config/env';
+import { envEvent } from '@/platform';
+const qtConfig = envEvent.report.getConfig();
+// 不同环境引入不同的埋点
+/* #ifdef MP-WEIXIN || MP-ALIPAY */
+import initQTSDK from '@/utils/report/qt_mini.umd-mini.js';
+initQTSDK(qtConfig);
+/* #endif */
+/* #ifdef H5 */
+import initQTSDK from '@/utils/report/qt_mini.umd-h5.js';
+initQTSDK();
+envEvent.report.addMetaInfo(qtConfig?.metaInfo);
+/* #endif */
+/* #ifdef H5 */
+import VConsole from 'vconsole';
+new VConsole();
+/* #endif */
+import App from './App.vue';
+export function createApp() {
+  const app = createSSRApp(App);
+  app.use(store);
+  app.use(I18n);
+  return {
+    app,
+  };
+}

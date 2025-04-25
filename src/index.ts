@@ -4,7 +4,6 @@ import { existsSync, mkdirSync, readFileSync, rmdirSync, unlinkSync, writeFileSy
 import { join } from 'node:path';
 import process from 'node:process';
 import ejs from 'ejs';
-import JSON5 from 'json5';
 import { bold, green } from 'kolorist';
 import minimist from 'minimist';
 import prompts from 'prompts';
@@ -38,8 +37,8 @@ async function init() {
       UIName: ['ui', 'u'],
       needsEslint: ['eslint', 'e'],
       needsI18n: ['i18n', 'en'],
-      needsTailwind: ['tailwind', 'tw'],
-      needsTheme: ['theme', 'th'],
+      atomicCss: ['css', 'c'],
+      themes: ['theme', 'th'],
     },
     string: ['_'],
   });
@@ -55,8 +54,8 @@ async function init() {
     UIName?: string | null;
     needsEslint?: boolean;
     needsI18n?: boolean;
-    needsTailwind?: boolean;
-    needsTheme?: boolean;
+    atomicCss?: boolean;
+    themes?: string;
   } = {};
 
   if (!projectName) {
@@ -80,6 +79,7 @@ async function init() {
       templateType: argv.templateType,
       needsEslint: argv['needsEslint'!],
       needsI18n: argv['needsI18n'!],
+      themes: argv.themes,
     };
   }
   const templateType = result.templateType;
@@ -105,8 +105,10 @@ async function init() {
   else if (!existsSync(root)) mkdirSync(root);
   const dataStore: Record<string, any> = {};
   // render base template
-  const templates = getTemplateBase(result);
-  await render(templates, result, dataStore, root);
+  if (result.templateType === TemplateTypeEnum.base) {
+    const templates = getTemplateBase(result);
+    await render(templates, result, dataStore, root);
+  }
   // render major template
   if (result.templateType === TemplateTypeEnum.major) {
     const majorTemplates = getTemplateMajor(result);
@@ -114,7 +116,9 @@ async function init() {
   }
   // render project template
   if (result.templateType === TemplateTypeEnum.project) {
-    const projectTemplates = getTemplateProject(result);
+    const majorTemplates = getTemplateMajor(result);
+    await render(majorTemplates, result, dataStore, root);
+    const projectTemplates = getTemplateProject();
     await render(projectTemplates, result, dataStore, root);
   }
   preOrderDirectoryTraverse(

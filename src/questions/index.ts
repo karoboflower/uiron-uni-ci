@@ -3,12 +3,11 @@ import { baseChoices, majorChoices, projectChoices } from './choices';
 import projectName from './name';
 import templateType from './template';
 import { onCancel } from './onCancel';
+import { TemplateTypeEnum } from '../const/enum';
 export async function question() {
   const questions = [...projectName(), ...templateType()];
-
   const answers = await prompts(questions, { onCancel });
-  const allList = await prompts(baseChoices(), { onCancel });
-  return { ...answers, ...allList };
+  return answers;
 }
 export async function majorQuestion() {
   const questions = await prompts(majorChoices(), { onCancel });
@@ -19,10 +18,12 @@ export async function projectQuestion() {
   return questions;
 }
 export async function templateTypeQuestion(type: string | undefined) {
-  if (type === 'major') {
+  if (type === TemplateTypeEnum.major) {
     return await prompts(majorChoices(), { onCancel });
-  } else if (type === 'project') {
-    return await prompts(projectChoices(), { onCancel });
+  } else if (type === TemplateTypeEnum.project) {
+    return await prompts([...majorChoices(), ...projectChoices()], { onCancel });
+  } else if (type === TemplateTypeEnum.base) {
+    return await prompts(baseChoices(), { onCancel });
   }
   return [];
 }

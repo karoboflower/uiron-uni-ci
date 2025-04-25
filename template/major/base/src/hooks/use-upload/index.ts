@@ -1,6 +1,7 @@
 import type { CompressImageType, UploadConfigType } from './types';
 import { uploadURL } from '@/const/env';
 import { hideLoading, showLoading } from '@/hooks/use-uni';
+import { t } from '@/local';
 
 const DefaultDirnameEnum = 'static';
 
@@ -30,7 +31,7 @@ export function useUploadImage(
   progressUpdate?: (e: any) => void,
 ): Promise<string> {
   return new Promise((resolve, reject) => {
-    showLoading('上传中');
+    showLoading(t('upload.uploading'));
     const url = useUploadPath(config?.dirname);
     const header = useUploadHeader();
     const updateloadCB = uni.uploadFile({
@@ -86,7 +87,7 @@ const compressImage = (path: string, options?: CompressImageType, count?: number
               compressImage(res, options, curCount).then(resolve);
             },
             fail(err) {
-              console.log('压缩失败', err);
+              console.log(t('upload.compressFailed'), err);
               resolve(path);
             },
           });

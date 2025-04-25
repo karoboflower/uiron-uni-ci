@@ -6030,37 +6030,6 @@ var UIList = [
   }
 ];
 
-// src/questions/template/choices.ts
-var templateList = [
-  {
-    title: green("\u57FA\u7840\u6A21\u677F"),
-    description: "eslint + plugin + i18n + ui",
-    value: "base"
-  },
-  {
-    title: green("\u52A0\u5F3A\u7248\u672C"),
-    description: `
-    \u57FA\u7840\u914D\u7F6E: sass + husky + prettier + eslint + typescript
-    eslint: true
-    i18n: true
-    ui: wot-design-ui
-    \u63D2\u4EF6\uFF1Aauto-import-types + unplugin-auto-import + vite-plugin-uni-components + vite-plugin-uni-pages + uni-ku/root + vite-plugin-uni-manifest
-    \u5176\u4ED6\u914D\u7F6E\uFF1A
-    \u539F\u5B50\u5316\u63D2\u4EF6\uFF1Atailwindcss 
-    \u4E3B\u9898\u5207\u6362\uFF1A theme
-    \u57FA\u7840hooks: useRequest + useStorage + useDebounce + useThrottle + useEventListener + useTimeoutFn + useIntervalFn + useClipboard
-    \u57FA\u7840\u5DE5\u5177\u5E93utils: is, isEmpty, isEqual, isObject, isArray, isString, isNumber
-    \u57FA\u7840store: userinfo
-    `,
-    value: "major"
-  },
-  {
-    title: trueColor(250, 44, 25)("\u5C0F\u94C1\u56E2\u961F\u7248\u672C"),
-    description: "qt\u8BBE\u7F6E+dockerfile+\u5404\u7C7B\u73AF\u5883\u53D8\u91CF",
-    value: "project"
-  }
-];
-
 // src/questions/choices.ts
 var baseChoices = () => {
   return [
@@ -6099,55 +6068,50 @@ var baseChoices = () => {
 var majorChoices = () => {
   return [
     {
-      name: "needsTailwind",
-      type: "toggle",
-      message: "\u662F\u5426\u5F15\u5165 tailwindcss\uFF1F",
-      initial: true,
-      active: "\u662F",
-      inactive: "\u5426"
+      name: "atomicCss",
+      type: "select",
+      message: "\u539F\u5B50\u5316css\uFF1F",
+      hint: "\u4F7F\u7528\u2191\u2193\u9009\u62E9\uFF0C\u56DE\u8F66\u786E\u8BA4",
+      choices: [
+        {
+          title: trueColor(243, 156, 18)("tailwind"),
+          value: "tailwind",
+          description: ""
+        },
+        {
+          title: trueColor(236, 112, 99)("unocss"),
+          value: "unocss",
+          description: ""
+        }
+      ]
     },
     {
-      name: "needsTheme",
-      type: "toggle",
-      message: "\u662F\u5426\u5F15\u5165\u4E3B\u9898\uFF1F",
-      initial: false,
-      active: "\u662F",
-      inactive: "\u5426"
+      name: "themes",
+      type: "select",
+      message: "\u9009\u62E9\u9700\u8981\u7684\u4E3B\u9898\u6A21\u5F0F",
+      hint: "\u4F7F\u7528\u2191\u2193\u9009\u62E9\uFF0C\u56DE\u8F66\u786E\u8BA4",
+      choices: [
+        {
+          title: trueColor(243, 156, 18)("\u4E0D\u9700\u8981\u4E3B\u9898\u5207\u6362"),
+          value: "null",
+          description: "\u4E0D\u9700\u8981\u4E3B\u9898\u5207\u6362"
+        },
+        {
+          title: trueColor(236, 112, 99)("\u81EA\u52A8\u5207\u6362\u4E3B\u9898"),
+          value: "themec",
+          description: "\u5C06\u4E3B\u9898\u5168\u90E8\u6253\u5305\u5728\u4E00\u8D77\uFF0C\u81EA\u52A8\u5207\u6362"
+        },
+        {
+          title: trueColor(241, 196, 15)("\u4E3B\u9898\u6253\u5305"),
+          value: "theme",
+          description: "\u5728\u6253\u5305\u7684\u65F6\u5019\u5C06\u4E3B\u9898\u6253\u5305\u8FDB\u53BB"
+        }
+      ]
     }
   ];
 };
 var projectChoices = () => {
-  return [
-    {
-      name: "templateList",
-      type: "select",
-      message: "\u9009\u62E9\u9700\u8981\u7684\u6A21\u677F\u6A21\u5F0F\uFF1F",
-      hint: "\u4F7F\u7528\u2191\u2193\u9009\u62E9\uFF0C\u56DE\u8F66\u786E\u8BA4",
-      choices: templateList
-    },
-    {
-      name: "needsI18n",
-      type: "toggle",
-      message: "\u662F\u5426\u5F15\u5165\u56FD\u9645\u5316\uFF1F",
-      initial: false,
-      active: "\u662F",
-      inactive: "\u5426"
-    },
-    {
-      name: "pluginList",
-      type: "multiselect",
-      message: "\u9009\u62E9\u9700\u8981\u7684vite\u63D2\u4EF6\uFF1F",
-      instructions: gray("\u4F7F\u7528\u2191\u2193\u9009\u62E9\uFF0C\u7A7A\u683C\u6216\u2190\u2192\u9009\u4E2D\uFF0Ca\u5168\u9009\uFF0C\u56DE\u8F66\u786E\u8BA4"),
-      choices: choices_default
-    },
-    {
-      name: "UIName",
-      type: "select",
-      message: "\u9009\u62E9\u9700\u8981\u7684\u7EC4\u4EF6\u5E93\uFF1F",
-      hint: "\u4F7F\u7528\u2191\u2193\u9009\u62E9\uFF0C\u56DE\u8F66\u786E\u8BA4",
-      choices: UIList
-    }
-  ];
+  return [];
 };
 
 // src/questions/file.ts
@@ -6400,10 +6364,13 @@ var getTemplateBase = (argv) => {
   return baseTemplate;
 };
 var getTemplateMajor = (argv) => {
-  const majorTemplate = {
-    "major/config/tailwind": argv.needsTailwind,
-    "major/config/theme": argv.needsTheme
-  };
+  const majorTemplate = {};
+  if (argv.atomicCss) {
+    majorTemplate[`major/config/${argv.atomicCss}`] = true;
+  }
+  if (argv.themes && argv.themes !== "null") {
+    majorTemplate[`major/config/${argv.themes}`] = true;
+  }
   if (argv.needsI18n) {
     majorTemplate["major/enbase"] = true;
   } else {
@@ -6411,14 +6378,10 @@ var getTemplateMajor = (argv) => {
   }
   return majorTemplate;
 };
-var getTemplateProject = (argv) => {
+var getTemplateProject = () => {
   const majorTemplate = {
-    "major/base": true,
-    "config/tailwind": argv.needsTailwind
+    "project/base": true
   };
-  if (argv.needsI18n) {
-    majorTemplate["major/enbase"] = true;
-  }
   return majorTemplate;
 };
 
@@ -6485,6 +6448,37 @@ var name_default = () => {
   ];
 };
 
+// src/questions/template/choices.ts
+var templateList = [
+  {
+    title: green("\u57FA\u7840\u6A21\u677F"),
+    description: "eslint + plugin + i18n + ui",
+    value: "base"
+  },
+  {
+    title: green("\u52A0\u5F3A\u7248\u672C"),
+    description: `\u96C6\u6210\u4E86\u4EE5\u4E0B\u529F\u80FD:
+    1. \u81EA\u52A8\u5BFC\u5165types\u6587\u4EF6
+    2. \u81EA\u52A8\u5BFC\u5165\u6A21\u5757\uFF08vue,pinia,i18n\uFF09
+    3. \u81EA\u52A8\u5BFC\u5165\u5168\u5C40\u7EC4\u4EF6
+    4. \u63D0\u4F9B\u57FA\u4E8E\u6587\u4EF6\u7CFB\u7EDF\u7684\u8DEF\u7531
+    5. \u81EA\u52A8\u751F\u6210manifest.json\u6587\u4EF6
+    6. \u63D0\u4F9B\u7C7Bnuxt\u7684layouts\u7CFB\u7EDF
+    7. i18n\u591A\u8BED\u8A00
+    8. eslint + prettier\u98CE\u683C\u7EDF\u4E00
+    9. \u57FA\u7840hooks+\u5DE5\u5177\u5E93utils+store
+    10.\u53EF\u4F9B\u9009\u62E9\u7684\u539F\u5B50\u5316css
+    11.\u53EF\u4F9B\u9009\u62E9\u7684\u4E3B\u9898\u5F15\u5165\u5F62\u5F0F
+    `,
+    value: "major"
+  },
+  {
+    title: trueColor(250, 44, 25)("\u5C0F\u94C1\u56E2\u961F\u7248\u672C"),
+    description: "qt\u8BBE\u7F6E+dockerfile+\u5404\u7C7B\u73AF\u5883\u53D8\u91CF",
+    value: "project"
+  }
+];
+
 // src/questions/template.ts
 var template_default = () => {
   return [
@@ -6502,14 +6496,15 @@ var template_default = () => {
 async function question() {
   const questions = [...name_default(), ...template_default()];
   const answers = await (0, import_prompts.default)(questions, { onCancel });
-  const allList = await (0, import_prompts.default)(baseChoices(), { onCancel });
-  return { ...answers, ...allList };
+  return answers;
 }
 async function templateTypeQuestion(type) {
-  if (type === "major") {
+  if (type === "major" /* major */) {
     return await (0, import_prompts.default)(majorChoices(), { onCancel });
-  } else if (type === "project") {
-    return await (0, import_prompts.default)(projectChoices(), { onCancel });
+  } else if (type === "project" /* project */) {
+    return await (0, import_prompts.default)([...majorChoices(), ...projectChoices()], { onCancel });
+  } else if (type === "base" /* base */) {
+    return await (0, import_prompts.default)(baseChoices(), { onCancel });
   }
   return [];
 }
@@ -6547,8 +6542,8 @@ async function init() {
       UIName: ["ui", "u"],
       needsEslint: ["eslint", "e"],
       needsI18n: ["i18n", "en"],
-      needsTailwind: ["tailwind", "tw"],
-      needsTheme: ["theme", "th"]
+      atomicCss: ["css", "c"],
+      themes: ["theme", "th"]
     },
     string: ["_"]
   });
@@ -6573,7 +6568,8 @@ async function init() {
       UIName,
       templateType: argv.templateType,
       needsEslint: argv["needsEslint"],
-      needsI18n: argv["needsI18n"]
+      needsI18n: argv["needsI18n"],
+      themes: argv.themes
     };
   }
   const templateType = result.templateType;
@@ -6596,14 +6592,18 @@ async function init() {
   if ((0, import_node_fs3.existsSync)(root) && result.shouldOverwrite) emptyDir(root);
   else if (!(0, import_node_fs3.existsSync)(root)) (0, import_node_fs3.mkdirSync)(root);
   const dataStore = {};
-  const templates = getTemplateBase(result);
-  await render(templates, result, dataStore, root);
+  if (result.templateType === "base" /* base */) {
+    const templates = getTemplateBase(result);
+    await render(templates, result, dataStore, root);
+  }
   if (result.templateType === "major" /* major */) {
     const majorTemplates = getTemplateMajor(result);
     await render(majorTemplates, result, dataStore, root);
   }
   if (result.templateType === "project" /* project */) {
-    const projectTemplates = getTemplateProject(result);
+    const majorTemplates = getTemplateMajor(result);
+    await render(majorTemplates, result, dataStore, root);
+    const projectTemplates = getTemplateProject();
     await render(projectTemplates, result, dataStore, root);
   }
   preOrderDirectoryTraverse(

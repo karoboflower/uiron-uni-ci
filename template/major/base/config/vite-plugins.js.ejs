@@ -1,0 +1,55 @@
+import AutoImportTypes from 'auto-import-types';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from '@uni-helper/vite-plugin-uni-components';
+import { WotResolver } from '@uni-helper/vite-plugin-uni-components/resolvers';
+import UniPages from '@uni-helper/vite-plugin-uni-pages';
+import UniLayouts from '@uni-helper/vite-plugin-uni-layouts';
+import UniManifest from '@uni-helper/vite-plugin-uni-manifest';
+<%_ for (const entry of entries) { _%>
+<%_ if (entry.ScriptImport) { _%>
+<%- entry.ScriptImport %>
+<%_ } _%>
+<%_ } _%>
+
+export function configUnplugin(env) {
+  return [
+    <%_ for (const entry of entries) { _%>
+    AutoImportTypes({
+      dtsDir: 'types',
+      filepath: '.eslintrc-auto-import-types.json',
+      globalsPropValue: true,
+    }),
+    AutoImport({
+      // 自定义文件生成的位置，默认是根目录下
+      dts: 'types/auto-imports.d.ts',
+      imports: ['vue', 'uni-app', 'pinia'],
+      eslintrc: {
+        enabled: true,
+        filepath: './.eslintrc-auto-import.json',
+        globalsPropValue: 'readonly',
+      },
+    }),
+    Components({
+      dirs: ['src/components'],
+      extensions: ['vue'],
+      // 配置文件生成位置
+      dts: 'types/components.d.ts',
+    resolvers: [WotResolver()],
+    }),
+    // @see https://uni-helper.js.org/vite-plugin-uni-pages
+    UniPages({
+      exclude: ['**/components/**/**.*'],
+      routeBlockLang: 'json5', // 虽然设了默认值，但是vue文件还是要加上 lang="json5", 这样才能很好地格式化
+      subPackages: ['src/sub-pages/common'], // arrray
+      dts: 'types/uni-pages.d.ts',
+    }),
+    // https://github.com/uni-helper/vite-plugin-uni-layouts
+    // 依赖于 @uni-helper/vite-plugin-uni-pages
+    UniLayouts(),
+    UniManifest(),
+    <%_ if (entry.id === 'changeThemefiles' || entry.id ==='unocss') { _%>
+      <%- entry.ScriptContent %>
+    <%_ } _%>   
+    <%_ } _%>
+  ];
+}

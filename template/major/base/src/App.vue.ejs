@@ -1,0 +1,27 @@
+<script setup lang="ts">
+  import { onHide, onLaunch, onShow } from '@dcloudio/uni-app';
+  import { setSystemLanguage, setTabBarLanguage } from '@/local';
+  onLaunch(() => {
+  console.log("App Launch");
+  // 设置系统语言
+  setSystemLanguage();
+  // 设置tabar语言
+  setTabBarLanguage();
+  });
+  onShow(() => {
+  });
+  onHide(() => {
+  });
+</script>
+<%_ for (const entry of entries) { _%>
+<%_ if (entry.config.styleImport) { _%>
+<%- entry.config.styleImport %>
+<%_ } _%>
+<%_ } _%>
+<style lang="scss">
+<%_ for (const entry of entries) { _%>
+<%_ if (entry.config.stylecontent) { _%>
+<%- entry.config.stylecontent %>
+<%_ } _%>
+<%_ } _%>
+</style>

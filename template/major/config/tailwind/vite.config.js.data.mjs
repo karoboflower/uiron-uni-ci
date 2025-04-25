@@ -12,11 +12,6 @@ export default function getData({ oldData }) {
       },`,
     configContent: '',
   };
-  const configIndex = oldData.findIndex((item) => item.id === 'ViteConfig');
-  if (configIndex !== -1) {
-    oldData[configIndex].ScriptImport = (oldData[configIndex].ScriptImport || '') + ViteConfig.ScriptImport;
-    oldData[configIndex].extraConfig = ViteConfig.extraConfig;
-  }
-
+  oldData.push(ViteConfig);
   return oldData;
 }

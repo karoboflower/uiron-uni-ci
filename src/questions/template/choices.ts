@@ -9,18 +9,18 @@ export const templateList: ModelType[] = [
   },
   {
     title: green('加强版本'),
-    description: `
-    基础配置: sass + husky + prettier + eslint + typescript
-    eslint: true
-    i18n: true
-    ui: wot-design-ui
-    插件：auto-import-types + unplugin-auto-import + vite-plugin-uni-components + vite-plugin-uni-pages + uni-ku/root + vite-plugin-uni-manifest
-    其他配置：
-    原子化插件：tailwindcss 
-    主题切换： theme
-    基础hooks: useRequest + useStorage + useDebounce + useThrottle + useEventListener + useTimeoutFn + useIntervalFn + useClipboard
-    基础工具库utils: is, isEmpty, isEqual, isObject, isArray, isString, isNumber
-    基础store: userinfo
+    description: `集成了以下功能:
+    1. 自动导入types文件
+    2. 自动导入模块（vue,pinia,i18n）
+    3. 自动导入全局组件
+    4. 提供基于文件系统的路由
+    5. 自动生成manifest.json文件
+    6. 提供类nuxt的layouts系统
+    7. i18n多语言
+    8. eslint + prettier风格统一
+    9. 基础hooks+工具库utils+store
+    10.可供选择的原子化css
+    11.可供选择的主题引入形式
     `,
     value: 'major',
   },

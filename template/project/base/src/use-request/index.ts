@@ -1,9 +1,16 @@
-import type { IConfigType, IHeaderType, IRequestType, requestQueueType, ReseponseType } from './types';
-import CryptoJS from 'crypto-js';
-import { getTokenStorage, removeTokenStorage } from '@/hooks/use-cache';
-import { envEvent } from '@/platform';
-import { TIME_OUT } from './const';
-import { apiKey, baseURL, prefix, xAppId } from '@/const/env';
+import type {
+  IConfigType,
+  IHeaderType,
+  IRequestType,
+  requestQueueType,
+  ReseponseType,
+} from "./types";
+import CryptoJS from "crypto-js";
+import { getTokenStorage, removeTokenStorage } from "@/hooks/use-cache";
+import { envEvent } from "@/platform";
+import { TIME_OUT } from "./const";
+import { t } from "@/local";
+import { apiKey, baseURL, prefix, xAppId } from "@/const/env";
 let refreshing = false;
 export class HttpService {
   private header: IHeaderType;
@@ -16,22 +23,22 @@ export class HttpService {
   }
 
   get<T = any>(url: string, params?: any, opt = {}): ReseponseType<T> {
-    return this.request({ url, params, method: 'GET', ...opt });
+    return this.request({ url, params, method: "GET", ...opt });
   }
 
   post<T = any>(url: string, params?: any, opt = {}): ReseponseType<T> {
-    return this.request({ url, params, method: 'POST', ...opt });
+    return this.request({ url, params, method: "POST", ...opt });
   }
 
   put<T = any>(url: string, params?: any, opt = {}): ReseponseType<T> {
-    return this.request({ url, params, method: 'PUT', ...opt });
+    return this.request({ url, params, method: "PUT", ...opt });
   }
 
   delete<T = any>(url: string, params?: any, opt = {}): ReseponseType<T> {
     return this.request({
       url,
       params,
-      method: 'DELETE',
+      method: "DELETE",
       ...opt,
     });
   }
@@ -85,13 +92,13 @@ export class HttpService {
   private catchErrorMsg(title: string): void {
     uni.showToast({
       title,
-      icon: 'error',
+      icon: "error",
     });
   }
 
   private showLoading() {
     uni.showLoading({
-      title: '加载中',
+      title: t("dialog.loading"),
     });
   }
 
@@ -102,7 +109,14 @@ export class HttpService {
   async request<T, U>(config: IRequestType<U>): ReseponseType<T> {
     config = this.mergeDefaultConfig(config);
     const header = await this.mergeDefaultHeader(config);
-    const { url, params, method = 'GET', loading = false, id, catchError = true } = config;
+    const {
+      url,
+      params,
+      method = "GET",
+      loading = false,
+      id,
+      catchError = true,
+    } = config;
 
     return new Promise((resolve, reject) => {
       loading && this.showLoading();
@@ -114,8 +128,8 @@ export class HttpService {
         data: params || config.data,
         header,
         method,
-        dataType: 'json',
-        responseType: 'text',
+        dataType: "json",
+        responseType: "text",
         success: async (response: any) => {
           const { data, statusCode } = response;
           if (statusCode === 200 || statusCode === 201) {
@@ -178,7 +192,7 @@ export class HttpService {
    * 整合Url
    */
   private joinBaseUrl(url: string) {
-    if (url?.startsWith('http://') || url?.startsWith('https://')) {
+    if (url.startsWith("http://") || url.startsWith("https://")) {
       return url;
     }
     const { baseURL, prefix: configPrefix } = this.config;
@@ -198,12 +212,11 @@ export function createHttp(config?: IConfigType) {
   return new HttpService(
     config || {
       header: {
-        'content-type': 'application/json; charset=utf-8',
-        'Xi-App-Id': xAppId,
+        "content-type": "application/json; charset=utf-8",
+        "Xi-App-Id": xAppId,
       },
       baseURL,
       timeout: TIME_OUT,
-
     },
   );
 }

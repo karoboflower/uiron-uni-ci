@@ -116,9 +116,13 @@ export const getTemplateBase = (argv: RecordType) => {
 };
 export const getTemplateMajor = (argv: RecordType) => {
   const majorTemplate: RecordType = {
-    'major/config/tailwind': argv.needsTailwind,
-    'major/config/theme': argv.needsTheme,
   };
+  if (argv.atomicCss) {
+    majorTemplate[`major/config/${argv.atomicCss}`] = true;
+  }
+  if (argv.themes && argv.themes !== 'null') {
+    majorTemplate[`major/config/${argv.themes}`] = true;
+  }
   if (argv.needsI18n) {
     majorTemplate['major/enbase'] = true;
   } else {
@@ -126,13 +130,9 @@ export const getTemplateMajor = (argv: RecordType) => {
   }
   return majorTemplate;
 };
-export const getTemplateProject = (argv: RecordType) => {
+export const getTemplateProject = () => {
   const majorTemplate: RecordType = {
-    'major/base': true,
-    'config/tailwind': argv.needsTailwind,
+    'project/base': true,
   };
-  if (argv.needsI18n) {
-    majorTemplate['major/enbase'] = true;
-  }
   return majorTemplate;
 };

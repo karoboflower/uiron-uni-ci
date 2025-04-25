@@ -1,8 +1,10 @@
-import { useTheme } from '@/hooks';
-const { themeConfig } = useTheme();
-const confirmColor = themeConfig.value['$primary-color'];
-const cancelColor = themeConfig.value['$text-color-disabled']; // todo
-
+//import { useTheme } from '@/hooks/use-theme';
+import { t } from '@/local';
+// const { themeVars } = useTheme();
+// const confirmColor = themeVars.value['$primary-color'];
+// const cancelColor = themeVars.value['$text-color-disabled'];
+const confirmColor = '#F6A623'; // 主题色
+const cancelColor = '#F5F5F5';
 /**
  * Show a toast message
  * @param {string} title - The message to display
@@ -26,7 +28,12 @@ export function toast(title: string, icon: 'none' | 'success' | 'error' | 'loadi
  * @param {string} [options.cancelText] - The text for the cancel button
  * @returns {Promise<boolean>} A promise that resolves to true if confirmed, rejects if cancelled
  */
-export function showModal({ title = '', content = '确认操作吗?', confirmText = '确定', cancelText = '取消' } = {}) {
+export function showModal({
+  title = '',
+  content = t('dialog.confirmOperation'),
+  confirmText = t('dialog.confirm'),
+  cancelText = t('dialog.cancel'),
+} = {}) {
   return new Promise((resolve, reject) => {
     uni.showModal({
       title,
@@ -50,7 +57,12 @@ export function showModal({ title = '', content = '确认操作吗?', confirmTex
 /**
  *  确认提示框
  */
-export function confirm(content = '确认操作吗?', title = '', confirmText = '确定', cancelText = '取消') {
+export function confirm(
+  content = t('dialog.confirmOperation'),
+  title = '',
+  confirmText = t('dialog.confirm'),
+  cancelText = t('dialog.cancel'),
+) {
   return new Promise((resolve, reject) => {
     uni.showModal({
       title,
@@ -73,7 +85,7 @@ export function confirm(content = '确认操作吗?', title = '', confirmText = 
 /**
  * 显示loading动画，需要调用hideLoading()手动关闭
  */
-export function showLoading(title = '加载中') {
+export function showLoading(title = t('dialog.loading')) {
   uni.showLoading({
     title,
   });

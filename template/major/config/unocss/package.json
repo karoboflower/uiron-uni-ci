@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "@unocss/preset-legacy-compat": "^0.59.4",
+    "unocss": "^0.58.9",
+    "unocss-applet": "^0.7.8"
+  }
+}
