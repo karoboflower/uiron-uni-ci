@@ -27,6 +27,7 @@ import {
 import { postOrderDirectoryTraverse } from './utils/directoryTraverse';
 import { validatePlugins, validateUIName } from './utils/validateArgv';
 import type { Ora } from './utils';
+import { prettierTemplate } from './utils/prettierTemplate';
 
 let loading: Ora;
 async function init() {
@@ -153,6 +154,8 @@ async function init() {
   replaceProjectName(root, result.projectName!);
 
   printFinish(root, cwd, packageManager, loading);
+
+  prettierTemplate(root);
 }
 
 init().catch((error) => {
