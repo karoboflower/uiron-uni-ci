@@ -9,12 +9,6 @@ export default function getData({ oldData }) {
   setTabBarLanguage();`,
     },
   };
-  const layouts = oldData.findIndex((item) => item.id === 'layouts');
-  if (layouts !== -1) {
-    enAppTemplate.config.ScriptImport = `import { setSystemLanguage } from '@/local';`;
-    enAppTemplate.config.ScriptonLaunch = `// 设置系统语言
-  setSystemLanguage();`;
-  }
   oldData.push(enAppTemplate);
   return oldData;
 }
