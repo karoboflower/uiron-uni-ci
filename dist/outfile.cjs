@@ -6365,13 +6365,13 @@ var getTemplateBase = (argv) => {
 };
 var getTemplateMajor = (argv) => {
   const majorTemplate = {};
+  majorTemplate["major/base"] = true;
   if (argv.atomicCss) {
     majorTemplate[`major/config/${argv.atomicCss}`] = true;
   }
   if (argv.themes && argv.themes !== "null") {
     majorTemplate[`major/config/${argv.themes}`] = true;
   }
-  majorTemplate["major/base"] = true;
   return majorTemplate;
 };
 var getTemplateProject = () => {

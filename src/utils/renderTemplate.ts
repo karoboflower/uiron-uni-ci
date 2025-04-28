@@ -117,13 +117,13 @@ export const getTemplateBase = (argv: RecordType) => {
 export const getTemplateMajor = (argv: RecordType) => {
   const majorTemplate: RecordType = {
   };
+  majorTemplate['major/base'] = true;
   if (argv.atomicCss) {
     majorTemplate[`major/config/${argv.atomicCss}`] = true;
   }
   if (argv.themes && argv.themes !== 'null') {
     majorTemplate[`major/config/${argv.themes}`] = true;
   }
-  majorTemplate['major/base'] = true;
   return majorTemplate;
 };
 export const getTemplateProject = () => {
