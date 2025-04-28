@@ -39,7 +39,10 @@
 | Plugin | pluginList | p | 见[插件列表](#插件列表) |
 | UI | ui | u | 见[组件列表](#组件列表) |
 | Eslint | eslint | e | —— |
-| 国际化 | vue-i18n | e | —— |
+| 国际化 | vue-i18n | en | —— |
+| 原子化CSS | atomicCss | css | tailwind, unocss |
+| 主题模式 | themes | th | 不需要主题切换, 自动切换主题, 主题打包 |
+
 #### 📦插件列表
 
 | 插件名 | 描述 | 参数名 |
@@ -47,6 +50,9 @@
 | [auto-import-types](https://github.com/Allen-1998/auto-import-types.git) | 自动引入types | autoTypes |
 | [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) | 自动引入组件 | autoComponents |
 | [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import) | 自动引入库 | autoImport |
+| [vite-plugin-uni-pages](https://github.com/uni-helper/vite-plugin-uni-pages) | 提供基于文件系统的路由 | page |
+| [vite-plugin-uni-layouts](https://github.com/uni-helper/vite-plugin-uni-layouts) | 提供类 nuxt 的 layouts 系统 | layouts |
+| [vite-plugin-uni-manifest](https://github.com/uni-helper/vite-plugin-uni-manifest) | 自动生成 manifest.json 文件 | manifest |
 
 #### 📦组件列表
 
@@ -56,6 +62,14 @@
 | [wot-design-uni](https://wot-design-uni.pages.dev/) | 高颜值、轻量化的uni-app组件库 | wot |
 | [nutui-uniapp](https://uniapp-nutui.tech/) | 京东风格的轻量级移动端组件库 | nut |
 | [uv-ui](https://www.uvui.cn/components/intro.html) | 多平台快速开发的UI框架 | uv |
+
+#### 📦模板列表
+
+| 模板名 | 描述 | 参数名 |
+| :---: | :---: | :---: |
+| 基础模板 | eslint + plugin + i18n + ui | base |
+| 加强版本 | 集成多种功能（自动导入、文件路由、layouts等） | major |
+| 小铁团队版本 | 包含qt设置、dockerfile、环境变量等 | project |
 
 ## 🛠️ 环境要求
 Vite 需要 Node.js 版本 18+ 或 20+
