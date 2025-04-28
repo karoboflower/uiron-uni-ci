@@ -1,7 +1,7 @@
 {
   "name": "create-uiron-uni-ci",
   "type": "module",
-  "version": "0.0.2-beta.14",
+  "version": "0.0.2-beta.15",
   "packageManager": "pnpm@9.9.0",
   "description": "轻松创建你的 uni-app 项目",
   "author": "1254326645@qq.com",

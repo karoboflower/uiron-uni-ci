@@ -7,7 +7,7 @@
       :border="false"
     />
     <slot />
-    <uni-tab-bar 
+    <uni-nav-bar  
       :value="activeTabbar.name"
       :fixed="true"
       :tabs="tabbarList"

@@ -1,19 +1,18 @@
 <template>
-  <wd-config-provider
+  <uv-config-provider
     :theme-vars="themeVars"
     custom-style="background-color: #f5f5f5;min-height: 100vh"
   >
     <slot />
-    <wd-notify />
-    <wd-toast />
-    <wd-message-box />
-  </wd-config-provider>
+    <uv-notify />
+    <uv-toast />
+    <uv-message-box />
+  </uv-config-provider>
 </template>
 
 <script lang="ts" setup>
-import type { ConfigProviderThemeVars } from "wot-design-uni";
 
-const themeVars = reactive<ConfigProviderThemeVars>({
+const themeVars = reactive<any>({
   colorTheme: "#FF5454",
   tabsNavLineBgColor: "red",
   navbarColor: "#ffffff",
