@@ -6098,12 +6098,12 @@ var majorChoices = () => {
         },
         {
           title: trueColor(236, 112, 99)("\u81EA\u52A8\u5207\u6362\u4E3B\u9898"),
-          value: "themec",
+          value: "thtoggle",
           description: "\u5C06\u4E3B\u9898\u5168\u90E8\u6253\u5305\u5728\u4E00\u8D77\uFF0C\u81EA\u52A8\u5207\u6362"
         },
         {
           title: trueColor(241, 196, 15)("\u4E3B\u9898\u6253\u5305"),
-          value: "theme",
+          value: "thbuild",
           description: "\u5728\u6253\u5305\u7684\u65F6\u5019\u5C06\u4E3B\u9898\u6253\u5305\u8FDB\u53BB"
         }
       ]
@@ -6568,6 +6568,7 @@ async function init() {
       templateType: argv.templateType,
       needsEslint: argv["needsEslint"],
       needsI18n: argv["needsI18n"],
+      atomicCss: argv.atomicCss,
       themes: argv.themes
     };
   }

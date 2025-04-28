@@ -1,0 +1,27 @@
+
+
+/* 主题颜色 */
+$primary-color: #4571eb; // 基础色 //sure
+$-color-theme: #4571eb; // 基础色 //sure
+
+/* 辅助色 */
+$-color-success: #84dd83; // 成功色
+$-color-warning: #ff6b00; // 警告色
+$-color-danger: #f35f53; // 危险出错色
+$-color-info: #f4f4f4;
+
+
+
+/* 文字基本颜色 */
+$-color-content: #fff; // 基本色 //sure
+
+/* button */
+$-button-primary-color: $-color-content;
+
+
+// 文字大小
+$font-family: PingFang SC; //sure
+:root,
+page {
+  font-family: $font-family;
+}

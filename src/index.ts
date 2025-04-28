@@ -87,6 +87,7 @@ async function init() {
       templateType: argv.templateType,
       needsEslint: argv["needsEslint"!],
       needsI18n: argv["needsI18n"!],
+      atomicCss: argv.atomicCss,
       themes: argv.themes,
     };
   }

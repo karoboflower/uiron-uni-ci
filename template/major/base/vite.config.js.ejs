@@ -17,9 +17,9 @@ export default ({ command, mode }) => {
   const port = Number(env.VITE_PORT) || 3000;
   const VITE_PROXY = env.VITE_PROXY ? JSON.parse(env.VITE_PROXY) : [];
   <%_ for (const entry of entries ) { _%>
-    <%_ if (entry.configContent) { _%>
-      <%- entry.configContent %>
-    <%_ } _%>
+  <%_ if (entry.configContent) { _%>
+  <%- entry.configContent %>
+  <%_ } _%>
   <%_ } _%>
   return {
     envDir: './env', // 自定义env目录

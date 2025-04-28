@@ -3,18 +3,18 @@ const theme = ref<"yellow" | "blue">('yellow');
 const themeVars = ref<any>();
 const themeMap = {
   yellow: {
-    colorTheme: "#F6A623",
-    colorTextBase: "#333333",
-    colorTextLight: "#FFFFFF",
-    colorTextPlaceholder: "#999999",
-    colorBgBase: "#F5F5F5",
+    colorTheme: "#ffe500",
+    colorWarning: "#ff6b00",
+    colorSuccess: "#84dd83",
+    colorDanger: "#f35f53",
+    colorInfo: "#f4f4f4",
   },
   blue: {
-    colorTheme: "#007AFF",
-    colorTextBase: "#333333",
-    colorTextLight: "#FFFFFF",
-    colorTextPlaceholder: "#999999",
-    colorBgBase: "#F5F5F5",
+    colorTheme: "#4571eb",
+    colorWarning: "#ff6b00",
+    colorSuccess: "#84dd83",
+    colorDanger: "#f35f53",
+    colorInfo: "#f4f4f4",
   },
 };
 export function useTheme() {

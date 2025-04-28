@@ -70,12 +70,12 @@ export const majorChoices = (): PromptObject<string>[] => {
         },
         {
           title: rgb(236, 112, 99)("自动切换主题"),
-          value: "themec",
+          value: "thtoggle",
           description: "将主题全部打包在一起，自动切换",
         },
         {
           title: rgb(241, 196, 15)("主题打包"),
-          value: "theme",
+          value: "thbuild",
           description: "在打包的时候将主题打包进去",
         },
       ],
