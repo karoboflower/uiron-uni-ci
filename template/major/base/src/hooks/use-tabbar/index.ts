@@ -1,3 +1,4 @@
+import { ref, computed } from 'vue';
 export interface TabbarItem {
   name: string;
   value: number | null;

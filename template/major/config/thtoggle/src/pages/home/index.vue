@@ -15,6 +15,7 @@
 </route>
 
 <script lang="ts" setup>
+import InputEntry from '@/components/InputEntry.vue';
 import { useTheme } from '@/hooks/use-theme';
 const { theme, toggleTheme } = useTheme();
 </script>

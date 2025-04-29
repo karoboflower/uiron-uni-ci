@@ -108,8 +108,14 @@ export const getTemplateBase = (argv: RecordType) => {
   if (argv.UIName) {
     baseTemplate[`ui/${argv.UIName}`] = true; // vite plugins config
   }
+  const hasLayouts = argv.pluginList.includes('layouts');
+  const hasPages = argv.pluginList.includes('pages');
+   // pages config
+   if (hasPages && argv.UIName && !hasLayouts) {
+    baseTemplate[`merge/layout-ui-${argv.UIName}`] = true;
+  }
   // layouts config
-  if (argv.pluginList.includes('layouts') && argv.UIName) {
+  if (hasLayouts && argv.UIName) {
     baseTemplate[`merge/layout-ui-${argv.UIName}`] = true;
   }
   return baseTemplate;

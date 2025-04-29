@@ -1,6 +1,6 @@
 <template>
   <div class="loading-page">
-    <nut-loading />
+    <nut-loading-page />
   </div>
 </template>
 
