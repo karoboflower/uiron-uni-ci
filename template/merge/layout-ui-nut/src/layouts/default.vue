@@ -6,11 +6,12 @@
     <slot />
     <nut-notify />
     <nut-toast />
-    <nut-message-box />
+    <nut-dialog />
   </nut-config-provider>
 </template>
 
 <script lang="ts" setup>
+import { reactive } from "vue";
 const themeVars = reactive<any>({
   colorTheme: "#FF5454",
   tabsNavLineBgColor: "red",

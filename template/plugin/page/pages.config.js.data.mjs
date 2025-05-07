@@ -1,9 +1,7 @@
-import { defineUniPages } from '@uni-helper/vite-plugin-uni-pages';
-
-export default defineUniPages({
-  pages: [],
-  homePage: 'pages/index/index',
-  globalStyle: {
+export default function getData({ oldData }) {
+  const pagesConfig = {
+    id: 'pagesConfig',
+    config: `globalStyle: {
     "backgroundColor": "#efeff4",
     "backgroundTextStyle": "dark",
     "enablePullDownRefresh": false,
@@ -30,5 +28,8 @@ export default defineUniPages({
         "text": "我的",
       },
     ],
-  },
-});
+  },`,
+  };
+  oldData.push(pagesConfig);
+  return oldData;
+}

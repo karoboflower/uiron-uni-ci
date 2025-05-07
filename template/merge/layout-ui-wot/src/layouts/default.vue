@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import type { ConfigProviderThemeVars } from "wot-design-uni";
-
+import { reactive } from "vue";
 const themeVars = reactive<ConfigProviderThemeVars>({
   colorTheme: "#FF5454",
   tabsNavLineBgColor: "red",

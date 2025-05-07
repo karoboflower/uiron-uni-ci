@@ -4,13 +4,15 @@ import path from 'node:path';
 import process from 'node:process';
 import { createProxy } from './config/proxy';
 <%_ for (const entry of entries ) { _%>
-  <%- entry.ScriptImport %>
+<%_ if (entry.ScriptImport) { _%>
+<%- entry.ScriptImport %>
+<%_ } _%>
 <%_ } _%>
 import { configUnplugin } from './config/vite-plugins';
 <%_ for (const entry of entries ) { _%>
-  <%_ if (entry.ScriptContent) { _%>
-    <%- entry.ScriptContent %>
-    <%_ } _%>
+<%_ if (entry.ScriptContent) { _%>
+<%- entry.ScriptContent %>
+<%_ } _%>
 <%_ } _%>
 export default ({ command, mode }) => {
   const env = loadEnv(mode, path.resolve(process.cwd(), 'env'));

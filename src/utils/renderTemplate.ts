@@ -72,6 +72,7 @@ export function renderTemplate(src: string, dest: string, callbacks: Callback[])
       // Though current `getData` are all sync, we still retain the possibility of async
       dataStore[dest] = await getData({
         oldData: dataStore[dest] || [],
+        otherData: dataStore,
       });
       // if the data is an array, sort it
     });
@@ -100,6 +101,11 @@ export const getTemplateBase = (argv: RecordType) => {
     'config/eslint': argv.needsEslint!, // eslint config
     'config/en': argv.needsI18n!, // i18n config
   };
+  const hasLayouts = argv.pluginList.includes('layouts');
+  const hasPage = argv.pluginList.includes('page');
+  if (hasLayouts && !hasPage) {
+    baseTemplate['plugin/page'] = true; // vite-plugin-uni-pages
+  }
    // Add plugins to the template
   for (let i = 0; i < argv.pluginList.length; i++) {
     const plugin = argv.pluginList[i];
@@ -108,13 +114,6 @@ export const getTemplateBase = (argv: RecordType) => {
   if (argv.UIName) {
     baseTemplate[`ui/${argv.UIName}`] = true; // vite plugins config
   }
-  const hasLayouts = argv.pluginList.includes('layouts');
-  const hasPages = argv.pluginList.includes('pages');
-   // pages config
-   if (hasPages && argv.UIName && !hasLayouts) {
-    baseTemplate[`merge/layout-ui-${argv.UIName}`] = true;
-  }
-  // layouts config
   if (hasLayouts && argv.UIName) {
     baseTemplate[`merge/layout-ui-${argv.UIName}`] = true;
   }

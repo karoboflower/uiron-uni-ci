@@ -137,15 +137,8 @@ async function init() {
       if (filepath.endsWith(".ejs")) {
         const template = readFileSync(filepath, "utf-8");
         const dest = filepath.replace(/\.ejs$/, "");
-        // if (dest.includes('vite.config') || dest.includes('vite-plugins')) {
-        //   dataStore[dest] = dataStore[dest]?.map((item: any) => {
-        //     if (item.extraConfig) {
-        //       item.extraConfig = JSON5.stringify(item.extraConfig, null, 2).slice(1, -1).trim();
-        //     }
-        //     return item;
-        //   });
-        // }
         let content = "";
+        console.log("dest", dataStore[dest], dest);
         if (dest.includes("vite.config") && result.pluginList?.length) {
           content = ejs.render(template, {
             entries: dataStore[dest] || [],
@@ -154,7 +147,10 @@ async function init() {
         } else {
           content = ejs.render(template, { entries: dataStore[dest] || [] });
         }
-        const tsDest = dest.replace(/\.js$/, ".ts");
+        let tsDest = dest.replace(/\.js$/, ".ts");
+        if (dest.includes('pages.config')) {
+          tsDest = dest.replace(/\.js$/, ".js");
+        }
         writeFileSync(tsDest, content);
         unlinkSync(filepath);
       }

@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-
+import { reactive } from "vue";
 const themeVars = reactive<any>({
   colorTheme: "#FF5454",
   tabsNavLineBgColor: "red",

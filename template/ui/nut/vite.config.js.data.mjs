@@ -9,9 +9,11 @@ export default function getData({ oldData }) {
       },
     },`,
   };
-  const configIndex = oldData.find((item) => item.id === "ViteConfig");
-  if (configIndex !== -1) {
+  const configIndex = oldData.findIndex((item) => item.id === "ViteConfig");
+  if (configIndex !== -1 && oldData[configIndex]?.extraConfig) {
     oldData[configIndex].extraConfig = ViteConfig.extraConfig;
+  } else {
+    oldData.push(ViteConfig);
   }
   return oldData;
 }

@@ -1,0 +1,11 @@
+import { defineUniPages } from "@uni-helper/vite-plugin-uni-pages";
+
+export default defineUniPages({
+  pages: [],
+  homePage: 'pages/index/index',
+  <%_ for (const entry of entries) { _%>
+  <%_ if (entry.config) { _%>
+  <%- entry.config %>
+  <%_ } _%>
+  <%_ } _%>
+});
