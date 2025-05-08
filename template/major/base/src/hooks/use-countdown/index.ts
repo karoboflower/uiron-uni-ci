@@ -1,3 +1,4 @@
+import { ref } from 'vue';
 /**
  * A Vue composable for countdown functionality
  * @param {number} seconds - Initial number of seconds for the countdown
